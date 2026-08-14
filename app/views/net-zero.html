@@ -1,0 +1,128 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Net Zero Communities Grant - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications-full",
+        html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>'
+      },
+      {
+        href: "/favourites",
+        text: "Favourites",
+        active: true
+      },
+      {
+        href: "/signed-manage-applications-full",
+        text: "Manage applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back to favourites",
+    href: "/favourites"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <!-- Page Heading & Department Caption -->
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+        Net Zero Communities Grant
+        <span class="govuk-caption-l govuk-!-margin-top-1">Department for Energy Security & Net Zero</span>
+      </h1>
+
+      <!-- Key Dates & Details Summary List -->
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-top-6 govuk-!-margin-bottom-8",
+        rows: [
+          {
+            key: { text: "Grant opens" },
+            value: { text: "15 May 2026" }
+          },
+          {
+            key: { text: "Grant closes" },
+            value: { text: "31 Oct 2026" }
+          },
+          {
+            key: { text: "Maximum grant" },
+            value: { text: "£125,000" }
+          },
+          {
+            key: { text: "Funding body" },
+            value: { text: "Department for Energy Security & Net Zero" }
+          }
+        ]
+      }) }}
+
+      <!-- About this grant section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">About this grant</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-8">
+        Supporting local communities, non-profits, and parish councils to accelerate clean energy transitions through local solar power generation, building heat retrofits, and energy efficiency upgrades.
+      </p>
+
+      <!-- Who can apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">Who can apply</h2>
+
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-8">
+        <li>Community benefit societies, charities, and social enterprises</li>
+        <li>Town and parish councils across England and Wales</li>
+        <li>Local energy groups partnered with accredited installers</li>
+      </ul>
+
+      <!-- How to apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">How to apply</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Applications must be submitted online before the deadline. You will need to submit a feasibility report, projected carbon savings calculation, and community benefit plan.
+      </p>
+
+      <!-- Start Application Call to Action -->
+      {{ govukButton({
+        text: "Start application",
+        href: "#",
+        isStartButton: true,
+        classes: "govuk-!-margin-top-2"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

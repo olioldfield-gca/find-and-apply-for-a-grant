@@ -1,0 +1,132 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Signed Find a Grant" %}
+
+{% block header %}
+  {{ super() }}
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants",
+        active: true
+      },
+      {
+        href: "/signed-notifications-full",
+        text: "Notifications"
+      },
+      {
+        href: "/signed-manage-applications",
+        text: "Manage applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<!-- Import all necessary GOV.UK macros here -->
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <!-- Logo placed INSIDE content block -->
+  <div class="govuk-!-margin-bottom-1 govuk-!-margin-top-0">
+    <img src="/public/images/gmf.jpg" alt="Grants Management Function" style="max-width: 300px; height: auto;">
+  </div>
+
+  <div class="govuk-grid-row">
+    
+    <!-- Left-hand side column -->
+    <div class="govuk-grid-column-two-thirds">
+      
+      <h1 class="govuk-heading-xl">{{ serviceName }}</h1>
+      
+      <p class="govuk-body-m">Find a grant is a service that allows you to search government grants.</p>
+
+      <p class="govuk-body">You can use this service to:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>access government grant funding</li>
+        <li>search and filter to find a grant that matches your needs</li>
+        <li>find out if you are eligible to apply for a grant</li>
+        <li>find out how to apply for a grant</li> 
+      </ul>
+
+      {{ govukInput({
+        hint: {
+          text: "Find government grants and check if you are eligible to apply."
+        },
+        id: "search-keyword",
+        name: "searchKeyword"
+      }) }}
+
+      {{ govukButton({
+        text: "Search grants"
+      }) }}
+  
+      <h2 class="govuk-heading-m">Browse all grants</h2>
+      <p class="govuk-body">See a list of all grants. You can filter the list based on your needs</p>
+      <p class="govuk-body"><a href="/results" class="govuk-link">Browse grants</a></p>
+    
+      <h2 class="govuk-heading-m">The future of Find a grant</h2>
+      <p class="govuk-body">More grants will be added as we develop our service. We will also add new functionality to make it easier to use.</p>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <div class="govuk-!-margin-bottom-6 govuk-!-margin-top-6">
+        <img src="/public/images/uk-logo.jpg" alt="Funded by UK Government" style="max-width: 300px; height: auto;">
+      </div>
+
+      <p class="govuk-body">
+        When you see this logo, it means that a project has been funded with UK taxpayer money.
+      </p>
+
+      <div class="govuk-!-padding-4 govuk-!-margin-bottom-8" style="background-color: #f3f2f1; border: 1px solid #b1b4b6;">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-3" style="display: flex; align-items: center;">
+          <!-- SVG for the notification bell icon -->
+          <svg class="govuk-!-margin-right-2" xmlns="http://www.w3.org/2000/svg" height="20" width="18" viewBox="0 0 448 512" aria-hidden="true" focusable="false">
+            <path fill="#0b0c0c" d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71z"/>
+          </svg>
+          Get updates about new grants
+        </h2>
+        
+        <p class="govuk-body govuk-!-margin-bottom-0">
+          <a href="/newsletter" class="govuk-link">Sign up and we will email you when new grants have been added.</a>
+        </p>
+      </div>
+    </div> <!-- Closes two-thirds column -->
+
+    <!-- Right-hand side column -->
+    <div class="govuk-grid-column-one-third">
+
+      <!-- Manage notifications -->
+      <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-4" style="border-bottom: 2px solid #1d70b8;">
+      <h2 class="govuk-heading-m">Manage notifications</h2>
+      <p class="govuk-body">See all the grant updates you have signed up for. You can unsubscribe here too.</p>
+      <p class="govuk-body">
+        <a href="/manage-notifications" class="govuk-link">Manage notifications and saved searches</a>
+      </p>
+
+      <!-- Sign in and apply -->
+      <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-4" style="border-bottom: 2px solid #1d70b8;">
+      <h2 class="govuk-heading-m">Sign in and apply</h2>
+      <p class="govuk-body">See your grant applications or start a new one.</p>
+      <p class="govuk-body">
+        <a href="/sign-in" class="govuk-link">Sign in and apply</a>
+      </p>
+
+      <!-- Feedback -->
+      <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-4" style="border-bottom: 2px solid #1d70b8;">
+      <p class="govuk-body">
+        Tell us how you think our service can improve 
+        <a href="/feedback" class="govuk-link">through our feedback form</a>.
+      </p>
+
+    </div> <!-- Closes one-third column -->
+    
+  </div> <!-- Closes the single grid row holding both columns -->
+{% endblock %}

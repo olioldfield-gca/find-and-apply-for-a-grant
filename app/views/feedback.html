@@ -1,0 +1,51 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Find a Grant" %}
+
+{% block header %}
+  {{ super() }}
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/index",
+        text: "Home",
+        active: true
+      },
+      {
+        href: "/search",
+        text: "Browse grants"
+      },
+      {
+        href: "about-us",
+        text: "About us"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<!-- Import all necessary GOV.UK macros here -->
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <div class="govuk-grid-row">
+    
+      <h1 class="govuk-heading-xl">Feedback</h1>
+
+      <p class="govuk-body">
+        This is a prototype placeholder page. There is no live feedback form connected.
+      </p>
+
+      <p class="govuk-body">
+        You can return to the homepage or continue exploring the prototype journey.
+      </p>
+
+      {{ govukButton({
+        text: "Return to home",
+        href: "/"
+      }) }}
+      
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{
+  "serviceName": "Find a grant",
+  "useServiceNavigation": true,
+  "plugins": {
+    "govuk-frontend": {
+      "rebrand": true
+    }
+  }
+}

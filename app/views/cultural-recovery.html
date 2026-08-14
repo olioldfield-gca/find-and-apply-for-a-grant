@@ -1,0 +1,128 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Cultural Recovery and Resilience Fund - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications-full",
+        html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>'
+      },
+      {
+        href: "/favourites",
+        text: "Favourites",
+        active: true
+      },
+      {
+        href: "/signed-manage-applications-full",
+        text: "Manage applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back to favourites",
+    href: "/favourites"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <!-- Page Heading & Department Caption -->
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+        Cultural Recovery and Resilience Fund
+        <span class="govuk-caption-l govuk-!-margin-top-1">Department for Culture, Media & Sport</span>
+      </h1>
+
+      <!-- Key Dates & Details Summary List -->
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-top-6 govuk-!-margin-bottom-8",
+        rows: [
+          {
+            key: { text: "Grant opens" },
+            value: { text: "01 Jul 2026" }
+          },
+          {
+            key: { text: "Grant closes" },
+            value: { text: "15 Dec 2026" }
+          },
+          {
+            key: { text: "Maximum grant" },
+            value: { text: "£200,000" }
+          },
+          {
+            key: { text: "Funding body" },
+            value: { text: "Department for Culture, Media & Sport" }
+          }
+        ]
+      }) }}
+
+      <!-- About this grant section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">About this grant</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-8">
+        Providing targeted funding and long-term financial stability for heritage sites, museums, performing arts venues, and cultural organisations across England to sustain operations, preserve collections, and protect creative sector jobs.
+      </p>
+
+      <!-- Who can apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">Who can apply</h2>
+
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-8">
+        <li>Non-profit cultural organisations, accredited museums, and public galleries in England</li>
+        <li>Independent heritage sites, theatres, and live music venues</li>
+        <li>Local authority-owned cultural services and registered heritage trusts</li>
+      </ul>
+
+      <!-- How to apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">How to apply</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Applications must be submitted through this online portal before the closing date. You will need to submit audited financial accounts, a 12-month business continuity plan, and evidence of public cultural impact.
+      </p>
+
+      <!-- Start Application Call to Action -->
+      {{ govukButton({
+        text: "Start application",
+        href: "#",
+        isStartButton: true,
+        classes: "govuk-!-margin-top-2"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

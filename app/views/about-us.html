@@ -1,0 +1,65 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "About us" %}
+
+{% block header %}
+  {{ super() }}
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/index",
+        text: "Home"
+      },
+      {
+        href: "/search",
+        text: "Browse grants"
+      },
+      {
+        href: "about-us",
+        text: "About us",
+        active: true
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+  
+  <!-- Main Content (Left side) -->
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">About us</h1>
+    
+    <p class="govuk-body">
+      The Find a grant service is an initiative being delivered by the 
+      <a href="https://www.gov.uk/government/collections/grants-management-function" class="govuk-link">Government Grants Management Function</a>, 
+      in Cabinet Office. It seeks to make it simpler, faster and fairer for organisations and individuals across the UK to find and apply for funding.
+    </p>
+  </div>
+
+  <!-- Sidebar (Right side) -->
+  <div class="govuk-grid-column-one-third">
+    
+    <!-- Related Navigation block -->
+    <aside class="govuk-!-margin-top-0" role="complementary">
+      <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-4" style="border-top: 2px solid #1d70b8; border-bottom: none;">
+      
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-3" id="related-content">
+        Related content
+      </h2>
+      
+      <nav aria-labelledby="related-content">
+        <ul class="govuk-list govuk-!-font-size-16">
+          <li class="govuk-!-margin-bottom-2">
+            <a href="/terms-and-conditions" class="govuk-link">Terms and conditions</a>
+          </li>
+          <li>
+            <a href="/privacy-notice" class="govuk-link">Privacy notice</a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+  </div>
+</div>
+{% endblock %}

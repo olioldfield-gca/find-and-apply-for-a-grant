@@ -1,0 +1,521 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Your notifications - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications-full",
+        html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>',
+        active: true
+      },
+      {
+        href: "/favourites",
+        text: "Favourites"
+      },
+      {
+        href: "/signed-manage-applications-full",
+        text: "Manage Applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/tag/macro.njk" import govukTag %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+
+    /* MOJ Sub Navigation Tabs */
+    .moj-sub-navigation {
+      margin-bottom: 25px;
+      border-bottom: 1px solid #b1b4b6;
+    }
+
+    .moj-sub-navigation__list {
+      font-size: 0;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .moj-sub-navigation__item {
+      display: inline-block;
+      font-size: 19px;
+      margin-right: 20px;
+    }
+
+    .moj-sub-navigation__link {
+      display: block;
+      padding: 10px 0 12px 0;
+      color: #1d70b8;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .moj-sub-navigation__link[aria-current="page"] {
+      color: #0b0c0c;
+      border-bottom: 4px solid #1d70b8;
+    }
+
+    /* Confirmation Box for Clear All */
+    .app-clear-confirmation-panel {
+      border: 3px solid #d4351c;
+      background-color: #fbf2f2;
+      padding: 24px;
+      margin-bottom: 30px;
+    }
+
+    /* Notification Cards Pattern */
+    .app-notification-card {
+      background-color: #ffffff;
+      border: 1px solid #b1b4b6;
+      border-left: 5px solid #d4351c;
+      padding: 20px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .app-notification-card--orange {
+      border-left-color: #f47738;
+    }
+
+    .app-notification-card--blue {
+      border-left-color: #1d70b8;
+    }
+
+    .app-notification-card--archived {
+      background-color: #f3f2f1;
+    }
+
+    .app-notification-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .app-notification-card__meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .app-notification-unread-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #d4351c;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .app-header-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      gap: 12px;
+    }
+  </style>
+
+  <!-- Header Title & Action Buttons -->
+  <div class="govuk-grid-row govuk-!-margin-bottom-2">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Your notifications</h1>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <div class="app-header-actions">
+        {{ govukButton({
+          text: "Archive all (3)",
+          classes: "govuk-button--secondary govuk-!-margin-bottom-0",
+          id: "archive-all-btn"
+        }) }}
+        {{ govukButton({
+          text: "Clear all notifications",
+          classes: "govuk-button--warning govuk-!-margin-bottom-0",
+          id: "clear-all-btn"
+        }) }}
+      </div>
+    </div>
+  </div>
+
+  <p class="govuk-body govuk-!-margin-bottom-6">
+    Messages, reminders and decisions related to your applications and watched grant schemes.
+  </p>
+
+  <!-- Clear All Confirmation Warning Panel -->
+  <div id="clear-confirmation-panel" class="app-clear-confirmation-panel govuk-!-display-none">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-3">Are you sure you want to clear all notifications?</h2>
+    <p class="govuk-body govuk-!-margin-bottom-4" id="clear-confirmation-text">
+      This will permanently remove all 5 notifications. This action cannot be undone.
+    </p>
+    <div class="govuk-button-group govuk-!-margin-bottom-0">
+      {{ govukButton({
+        text: "Yes, clear all",
+        classes: "govuk-button--warning govuk-!-margin-bottom-0",
+        id: "confirm-clear-btn"
+      }) }}
+      {{ govukButton({
+        text: "No, keep notifications",
+        classes: "govuk-button--secondary govuk-!-margin-bottom-0",
+        id: "cancel-clear-btn"
+      }) }}
+    </div>
+  </div>
+
+  <!-- Tabs Navigation -->
+  <nav class="moj-sub-navigation" aria-label="Notification view tabs">
+    <ul class="moj-sub-navigation__list">
+      <li class="moj-sub-navigation__item">
+        <a class="moj-sub-navigation__link js-tab-link" aria-current="page" href="#new" data-target="tab-new" id="tab-new-link">New (3)</a>
+      </li>
+      <li class="moj-sub-navigation__item">
+        <a class="moj-sub-navigation__link js-tab-link" href="#archived" data-target="tab-archived" id="tab-archived-link">Archived (2)</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- TAB 1: NEW NOTIFICATIONS -->
+  <div id="tab-new" class="js-tab-panel">
+
+    <p id="no-new-notifications-message" class="govuk-body govuk-!-display-none">
+      You have no new notifications.
+    </p>
+
+    <!-- Card 1: Message from Administrator -->
+    <div class="app-notification-card">
+      <div class="app-notification-card__header">
+        <div class="app-notification-card__meta">
+          {{ govukTag({ text: "MESSAGE FROM ADMINISTRATOR", classes: "govuk-tag--red" }) }}
+          <span class="govuk-body-s govuk-!-margin-bottom-0 govuk-caption-m">10 Aug 2026</span>
+        </div>
+        <span class="app-notification-unread-dot" title="Unread notification"></span>
+      </div>
+
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Action required: Application A</h2>
+
+      <p class="govuk-body">
+        A grant administrator has reviewed your submission and requires additional supporting documents before assessment can continue. Please upload the missing financial statements and evidence of land ownership.
+      </p>
+
+      <div class="govuk-body govuk-!-margin-bottom-0">
+        <a href="/signed-manage-applications-full" class="govuk-link govuk-!-margin-right-4">Go to your dashboard to take action &rarr;</a>
+        <a href="#" class="govuk-link js-archive-single">Archive this notification</a>
+      </div>
+    </div>
+
+    <!-- Card 2: Reminder -->
+    <div class="app-notification-card app-notification-card--orange">
+      <div class="app-notification-card__header">
+        <div class="app-notification-card__meta">
+          {{ govukTag({ text: "REMINDER", classes: "govuk-tag--orange" }) }}
+          <span class="govuk-body-s govuk-!-margin-bottom-0 govuk-caption-m">09 Aug 2026</span>
+        </div>
+        <span class="app-notification-unread-dot" title="Unread notification"></span>
+      </div>
+
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Reminder: Farming Innovation Programme closing soon</h2>
+
+      <p class="govuk-body">
+        The Farming Innovation Programme grant scheme you are watching is closing on 15 August 2026. This is your final opportunity to submit an application before the deadline.
+      </p>
+
+      <div class="govuk-body govuk-!-margin-bottom-0">
+        <a href="/signed-manage-applications-full" class="govuk-link govuk-!-margin-right-4">Go to your dashboard to take action &rarr;</a>
+        <a href="#" class="govuk-link js-archive-single">Archive this notification</a>
+      </div>
+    </div>
+
+    <!-- Card 3: Decision -->
+    <div class="app-notification-card app-notification-card--blue">
+      <div class="app-notification-card__header">
+        <div class="app-notification-card__meta">
+          {{ govukTag({ text: "DECISION", classes: "govuk-tag--blue" }) }}
+          <span class="govuk-body-s govuk-!-margin-bottom-0 govuk-caption-m">01 Aug 2026</span>
+        </div>
+        <span class="app-notification-unread-dot" title="Unread notification"></span>
+      </div>
+
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Application approved: Community Skills Fund</h2>
+
+      <p class="govuk-body">
+        Your application for the Levelling Up Skills Programme has been approved. You will receive further correspondence from the grant administrator regarding next steps and payment schedule.
+      </p>
+
+      <div class="govuk-body govuk-!-margin-bottom-0">
+        <a href="/signed-manage-applications-full" class="govuk-link govuk-!-margin-right-4">Go to your dashboard to take action &rarr;</a>
+        <a href="#" class="govuk-link js-archive-single">Archive this notification</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB 2: ARCHIVED NOTIFICATIONS -->
+  <div id="tab-archived" class="js-tab-panel govuk-!-display-none">
+
+    <p id="no-archived-notifications-message" class="govuk-body govuk-!-display-none">
+      You have no archived notifications.
+    </p>
+
+    <!-- Archived Card 1: Decision -->
+    <div class="app-notification-card app-notification-card--blue app-notification-card--archived">
+      <div class="app-notification-card__header">
+        <div class="app-notification-card__meta">
+          {{ govukTag({ text: "DECISION", classes: "govuk-tag--blue" }) }}
+          <span class="govuk-body-s govuk-!-margin-bottom-0 govuk-caption-m">18 Jul 2026 &mdash; Archived</span>
+        </div>
+      </div>
+
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Application unsuccessful: Heritage Restoration Project</h2>
+
+      <p class="govuk-body">
+        We regret to inform you that your application for the Historic England Grant Scheme was not successful at this time. You may request feedback from the administrator.
+      </p>
+
+      <div class="govuk-body govuk-!-margin-bottom-0">
+        <a href="#" class="govuk-link">Go to your dashboard to take action &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Archived Card 2: Reminder -->
+    <div class="app-notification-card app-notification-card--orange app-notification-card--archived">
+      <div class="app-notification-card__header">
+        <div class="app-notification-card__meta">
+          {{ govukTag({ text: "REMINDER", classes: "govuk-tag--orange" }) }}
+          <span class="govuk-body-s govuk-!-margin-bottom-0 govuk-caption-m">05 Aug 2026 &mdash; Archived</span>
+        </div>
+      </div>
+
+      <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Reminder: Net Zero Communities Grant &mdash; assessment underway</h2>
+
+      <p class="govuk-body">
+        Your Green Energy Initiative application is currently under review. The assessment panel meets on 20 August 2026. No action is required from you at this time.
+      </p>
+
+      <div class="govuk-body govuk-!-margin-bottom-0">
+        <a href="#" class="govuk-link">Go to your dashboard to take action &rarr;</a>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
+
+{% block pageScripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      
+      // Elements
+      const tabLinks = document.querySelectorAll('.js-tab-link');
+      const tabPanels = document.querySelectorAll('.js-tab-panel');
+
+      const archiveAllBtn = document.getElementById('archive-all-btn');
+      const clearAllBtn = document.getElementById('clear-all-btn');
+
+      const clearPanel = document.getElementById('clear-confirmation-panel');
+      const clearText = document.getElementById('clear-confirmation-text');
+      const confirmClearBtn = document.getElementById('confirm-clear-btn');
+      const cancelClearBtn = document.getElementById('cancel-clear-btn');
+
+      const tabNew = document.getElementById('tab-new');
+      const tabArchived = document.getElementById('tab-archived');
+
+      const emptyNewMsg = document.getElementById('no-new-notifications-message');
+      const emptyArchivedMsg = document.getElementById('no-archived-notifications-message');
+
+      const tabNewLink = document.getElementById('tab-new-link');
+      const tabArchivedLink = document.getElementById('tab-archived-link');
+      const navBadge = document.getElementById('nav-notification-badge');
+
+      // Helper function to count total remaining notifications
+      function getTotalCount() {
+        return document.querySelectorAll('.app-notification-card').length;
+      }
+
+      // 1. Tab switching
+      tabLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          event.preventDefault();
+          const targetId = this.getAttribute('data-target');
+
+          tabLinks.forEach(l => l.removeAttribute('aria-current'));
+          this.setAttribute('aria-current', 'page');
+
+          tabPanels.forEach(function (panel) {
+            if (panel.id === targetId) {
+              panel.classList.remove('govuk-!-display-none');
+            } else {
+              panel.classList.add('govuk-!-display-none');
+            }
+          });
+        });
+      });
+
+      // 2. Clear All Notifications Button - Show Panel
+      if (clearAllBtn) {
+        clearAllBtn.addEventListener('click', function (event) {
+          event.preventDefault();
+
+          const total = getTotalCount();
+          if (total === 0) return;
+
+          clearText.textContent = 'This will permanently remove all ' + total + ' notifications. This action cannot be undone.';
+          clearPanel.classList.remove('govuk-!-display-none');
+          clearPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      }
+
+      // 3. No, keep notifications - Hide Panel
+      if (cancelClearBtn) {
+        cancelClearBtn.addEventListener('click', function (event) {
+          event.preventDefault();
+          clearPanel.classList.add('govuk-!-display-none');
+        });
+      }
+
+      // 4. Yes, clear all - Delete All Notifications
+      if (confirmClearBtn) {
+        confirmClearBtn.addEventListener('click', function (event) {
+          event.preventDefault();
+
+          // Remove all notification cards
+          const allCards = document.querySelectorAll('.app-notification-card');
+          allCards.forEach(card => card.remove());
+
+          // Hide panel
+          clearPanel.classList.add('govuk-!-display-none');
+
+          // Show empty messages
+          if (emptyNewMsg) emptyNewMsg.classList.remove('govuk-!-display-none');
+          if (emptyArchivedMsg) emptyArchivedMsg.classList.remove('govuk-!-display-none');
+
+          // Disable buttons
+          if (archiveAllBtn) {
+            archiveAllBtn.textContent = 'Archive all (0)';
+            archiveAllBtn.classList.add('govuk-button--disabled');
+            archiveAllBtn.setAttribute('disabled', 'disabled');
+          }
+
+          if (clearAllBtn) {
+            clearAllBtn.classList.add('govuk-button--disabled');
+            clearAllBtn.setAttribute('disabled', 'disabled');
+          }
+
+          // Update tab links and nav badge
+          if (tabNewLink) tabNewLink.textContent = 'New (0)';
+          if (tabArchivedLink) tabArchivedLink.textContent = 'Archived (0)';
+          if (navBadge) navBadge.style.display = 'none';
+        });
+      }
+
+      // Helper function to convert single card to Archived state
+      function convertToArchived(card) {
+        const dot = card.querySelector('.app-notification-unread-dot');
+        if (dot) dot.remove();
+
+        card.classList.add('app-notification-card--archived');
+
+        const metaDate = card.querySelector('.app-notification-card__meta .govuk-caption-m');
+        if (metaDate && !metaDate.textContent.includes('Archived')) {
+          metaDate.textContent = metaDate.textContent.trim() + ' \u2014 Archived';
+        }
+
+        const archiveLinks = card.querySelectorAll('.js-archive-single');
+        archiveLinks.forEach(link => link.remove());
+
+        tabArchived.appendChild(card);
+      }
+
+      // 5. Archive All Button
+      if (archiveAllBtn) {
+        archiveAllBtn.addEventListener('click', function (event) {
+          event.preventDefault();
+
+          const newCards = tabNew.querySelectorAll('.app-notification-card');
+          if (newCards.length === 0) return;
+
+          newCards.forEach(card => convertToArchived(card));
+
+          if (emptyNewMsg) emptyNewMsg.classList.remove('govuk-!-display-none');
+
+          archiveAllBtn.textContent = 'Archive all (0)';
+          archiveAllBtn.classList.add('govuk-button--disabled');
+          archiveAllBtn.setAttribute('disabled', 'disabled');
+
+          const totalArchived = tabArchived.querySelectorAll('.app-notification-card').length;
+
+          if (tabNewLink) tabNewLink.textContent = 'New (0)';
+          if (tabArchivedLink) tabArchivedLink.textContent = 'Archived (' + totalArchived + ')';
+          if (navBadge) navBadge.style.display = 'none';
+        });
+      }
+
+      // 6. Individual Archive Links
+      const singleArchiveLinks = document.querySelectorAll('.js-archive-single');
+      singleArchiveLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          event.preventDefault();
+          const card = this.closest('.app-notification-card');
+          if (card) {
+            convertToArchived(card);
+
+            const remainingNew = tabNew.querySelectorAll('.app-notification-card').length;
+            const remainingArchived = tabArchived.querySelectorAll('.app-notification-card').length;
+
+            if (archiveAllBtn) archiveAllBtn.textContent = 'Archive all (' + remainingNew + ')';
+            if (tabNewLink) tabNewLink.textContent = 'New (' + remainingNew + ')';
+            if (tabArchivedLink) tabArchivedLink.textContent = 'Archived (' + remainingArchived + ')';
+
+            if (navBadge) {
+              if (remainingNew === 0) {
+                navBadge.style.display = 'none';
+              } else {
+                navBadge.textContent = remainingNew;
+              }
+            }
+
+            if (remainingNew === 0) {
+              if (emptyNewMsg) emptyNewMsg.classList.remove('govuk-!-display-none');
+              if (archiveAllBtn) {
+                archiveAllBtn.classList.add('govuk-button--disabled');
+                archiveAllBtn.setAttribute('disabled', 'disabled');
+              }
+            }
+          }
+        });
+      });
+
+    });
+  </script>
+{% endblock %}

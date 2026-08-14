@@ -1,0 +1,553 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Search results - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/index", text: "Home" },
+      { href: "/search", text: "Browse grants", active: true },
+      { href: "/about-us", text: "About us" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<!-- Import all required GOV.UK macros -->
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+{% from "govuk/components/pagination/macro.njk" import govukPagination %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+
+<div class="govuk-grid-row">
+  
+  <!-- ======================== LEFT COLUMN ======================== -->
+  <div class="govuk-grid-column-one-third">
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-3">Search results</h1>
+    
+    <p class="govuk-body govuk-!-font-size-19 govuk-!-margin-bottom-6">
+      We’ve found <strong>118</strong> grants
+    </p>
+
+    {{ govukButton({
+  text: "Clear all filters",
+  classes: "govuk-button--secondary govuk-!-margin-bottom-6",
+  href: "/search"
+}) }}
+
+<!-- START FORM WRAPPER -->
+  <form action="/search" method="get" novalidate>
+
+    <!-- Filtering Accordion -->
+    {{ govukAccordion({
+      id: "accordion-filters",
+      items: [
+        {
+          heading: { text: "Who can apply" },
+          content: {
+            html: govukCheckboxes({
+              name: "who-can-apply",
+              classes: "govuk-checkboxes--small",
+              fieldset: { legend: { text: "Who can apply", classes: "govuk-visually-hidden" } },
+              items: [
+                { value: "personal", text: "Personal / individual" },
+                { value: "public", text: "Public sector" },
+                { value: "private", text: "Private sector" },
+                { value: "non-profit", text: "Non profit" },
+                { value: "local", text: "Local authority" }
+              ]
+            })
+          }
+        },
+        {
+          heading: { text: "Location" },
+          content: {
+            html: govukCheckboxes({
+              name: "location",
+              classes: "govuk-checkboxes--small",
+              fieldset: { legend: { text: "Location", classes: "govuk-visually-hidden" } },
+              items: [
+                { value: "International", text: "International" },
+                { value: "national", text: "National" },
+                { value: "england", text: "England" },
+                { value: "north East England", text: "North England England" },
+                { value: "north West England", text: "North West England" },
+                { value: "south East England", text: "South West England" },
+                { value: "midlands", text: "Midlands" },
+                { value: "scotland", text: "Scotland" },
+                { value: "wales", text: "Wales" },
+                { value: "ni", text: "Northern Ireland" }
+              ]
+            })
+          }
+        },
+        {
+          heading: { text: "How much you can get" },
+          content: {
+            html: govukCheckboxes({
+              name: "How much you can get",
+              classes: "govuk-checkboxes--small",
+              fieldset: { legend: { text: "How much you can get", classes: "govuk-visually-hidden" } },
+              items: [
+                { value: "0", text: "£0 to £9,999" },
+                { value: "£10,000 to £49,999", text: "£10,000 to £49,999" },
+                { value: "£50,000 to £249,999", text: "£50,000 to £249,999" },
+                { value: "£250,000 to £999,999", text: "£250,000 to £999,999" },
+                { value: "£1,000,000 to £4.9 million", text: "£1,000,000 to £4.9 million" },
+                { value: "£5 million plus", text: "£5 million plus" }
+              ]
+            })
+          }
+        },
+        {
+      heading: { text: "Date added" },
+      expanded: true,
+      content: {
+        html: '
+          <!-- FROM DATE -->
+          <div class="govuk-form-group govuk-!-margin-bottom-4">
+            <p class="govuk-body govuk-!-margin-bottom-2">From</p>
+            <div style="display: flex; align-items: flex-end; gap: 8px;">
+              ' + govukDateInput({
+                id: "date-from",
+                namePrefix: "date-from",
+                items: [
+                  { classes: "govuk-input--width-2", name: "day", label: "Day" },
+                  { classes: "govuk-input--width-2", name: "month", label: "Month" },
+                  { classes: "govuk-input--width-4", name: "year", label: "Year" }
+                ]
+              }) + '
+              <button class="govuk-button govuk-button--secondary" style="margin-bottom: 20px; padding: 7px 10px;" type="button" aria-label="Choose From date">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- TO DATE -->
+          <div class="govuk-form-group govuk-!-margin-bottom-4">
+            <p class="govuk-body govuk-!-margin-bottom-2">To</p>
+            <div style="display: flex; align-items: flex-end; gap: 8px;">
+              ' + govukDateInput({
+                id: "date-to",
+                namePrefix: "date-to",
+                items: [
+                  { classes: "govuk-input--width-2", name: "day", label: "Day" },
+                  { classes: "govuk-input--width-2", name: "month", label: "Month" },
+                  { classes: "govuk-input--width-4", name: "year", label: "Year" }
+                ]
+              }) + '
+              <button class="govuk-button govuk-button--secondary" style="margin-bottom: 20px; padding: 7px 10px;" type="button" aria-label="Choose To date">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- CLEAR DATE BUTTON -->
+          ' + govukButton({
+            text: "Clear date",
+            classes: "govuk-button--secondary govuk-!-margin-bottom-2"
+          }) + '
+        '
+      }
+    }
+  ]
+}) }}
+
+<!-- BOTTOM ACTION BUTTONS -->
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<div style="display: flex; gap: 12px; align-items: center;" class="govuk-!-margin-top-4 govuk-!-margin-bottom-4">
+  {{ govukButton({
+    text: "Apply filters",
+    classes: "govuk-!-margin-bottom-0"
+  }) }}
+
+  {{ govukButton({
+    text: "Clear all filters",
+    classes: "govuk-button--secondary govuk-!-margin-bottom-0",
+    href: "/search"
+  }) }}
+</div>
+
+</form>
+  <!-- END FORM WRAPPER -->
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      
+
+  </div>
+
+
+  <!-- ======================== RIGHT COLUMN ======================== -->
+  <div class="govuk-grid-column-two-thirds">
+
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-3">Search grants</h2>
+
+    <!-- Search Box with Inline Button -->
+    <div class="govuk-form-group govuk-!-margin-bottom-6">
+      <div style="display: flex;">
+        <input class="govuk-input" id="search" name="search" type="text" placeholder="enter a keyword or search term here" style="flex: 1; border-right: none;">
+        <button type="submit" class="govuk-button" data-module="govuk-button" style="margin-bottom: 0;">
+          Search
+        </button>
+      </div>
+    </div>
+
+    <!-- Inline Sort By Dropdown -->
+    <div class="govuk-form-group govuk-!-margin-bottom-6" style="display: flex; align-items: center; gap: 12px;">
+      <label class="govuk-label govuk-!-margin-bottom-0" for="sort">
+        Sort by
+      </label>
+      <select class="govuk-select" id="sort" name="sort">
+        <option value="opening-date" selected>Opening date</option>
+        <option value="closing-date">Closing date</option>
+        <option value="value-high">Grant value: High to low</option>
+        <option value="value-low">Grant value: Low to high</option>
+      </select>
+    </div>
+
+    <!-- ======================== SEARCH RESULTS LIST ======================== -->
+    
+ <!-- Result Item 1 -->
+<div class="grant-result-item govuk-!-padding-top-4 govuk-!-padding-bottom-6" 
+     data-who="personal public non-profit private" 
+     data-location="england" 
+     style="border-top: 1px solid #b1b4b6;">
+  
+  <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
+    <a href="#" class="govuk-link">Trees, woodlands and forestry - Woodland Creation Planning Grant</a>
+  </h3>
+
+  <p class="govuk-body govuk-!-margin-bottom-4">
+    The Woodland Creation Planning Grant (WCPG) offers funding of up to £30,500 for the production of a UKFS-compliant woodland creation design plan. Landowners, land managers and public bodies can apply. WCPG is open for applications year-round. The ‘Find a grant’ tool requires a ‘closing date’ to be specified, however 31 March 2030 reflects the period WCPG funding is currently confirmed until, rather than a known closure date. The scheme was re-launched in autumn 2020 to enable more people to apply and help proposals move more quickly through the Environmental Impact Assessment process and future planting and establishment grant funding.
+  </p>
+
+  <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key govuk-!-width-one-third">
+        Location
+      </dt>
+      <dd class="govuk-summary-list__value">
+        England, North East England, North West England, South East England, South West England, Midlands
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Funding organisation
+      </dt>
+      <dd class="govuk-summary-list__value">
+        Department for Environment Food and Rural Affairs / Forestry Commission – Defra Trees Programme
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Who can apply
+      </dt>
+      <dd class="govuk-summary-list__value">
+        Personal / Individual, Public Sector, Non-profit, Private Sector
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        How much you can get
+      </dt>
+      <dd class="govuk-summary-list__value">
+        From £1,500 to £30,500
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Total size of grant scheme
+      </dt>
+      <dd class="govuk-summary-list__value">
+        £708,607
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Opening date
+      </dt>
+      <dd class="govuk-summary-list__value">
+        1 December 2015, 12:01am (Midnight)
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Closing date
+      </dt>
+      <dd class="govuk-summary-list__value">
+        31 March 2030, 11:59pm (Midnight)
+      </dd>
+    </div>
+  </dl>
+</div>
+
+   <!-- Result Item 2 -->
+<div class="grant-result-item govuk-!-padding-top-4 govuk-!-padding-bottom-6" 
+     data-who="public non-profit" 
+     data-location="england" 
+     style="border-top: 1px solid #b1b4b6;">
+  
+  <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
+    <a href="#" class="govuk-link">Community and Environment Fund (CEF) and Business and Local Economy Fund (BLEF)</a>
+  </h3>
+
+  <p class="govuk-body govuk-!-margin-bottom-4">
+    This funding programme provides grants to local communities and economies that are disrupted by the construction of Phase One and Phase 2a of HS2 between London and Crewe.
+  </p>
+
+  <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key govuk-!-width-one-third">Location</dt>
+      <dd class="govuk-summary-list__value">England</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Funding organisation</dt>
+      <dd class="govuk-summary-list__value">HS2 Ltd</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Who can apply</dt>
+      <dd class="govuk-summary-list__value">Public Sector, Non-profit</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">How much you can get</dt>
+      <dd class="govuk-summary-list__value">From £1 to £250,000</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Total size of grant scheme</dt>
+      <dd class="govuk-summary-list__value">£45 million</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Opening date</dt>
+      <dd class="govuk-summary-list__value">8 March 2017, 12:01am (Midnight)</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Closing date</dt>
+      <dd class="govuk-summary-list__value">31 March 2035, 11:59pm (Midnight)</dd>
+    </div>
+  </dl>
+</div>
+
+<!-- Result Item 3: EV Chargepoint Grant for Renters & Flat Owners -->
+<div class="grant-result-item govuk-!-padding-top-4 govuk-!-padding-bottom-6" 
+     data-who="personal" 
+     data-location="national england wales scotland ni" 
+     style="border-top: 1px solid #b1b4b6;">
+
+  <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
+    <a href="#" class="govuk-link">Electric Vehicle Chargepoint Grant for Renters and Flat Owners</a>
+  </h3>
+
+  <p class="govuk-body govuk-!-margin-bottom-4">
+    The grant provides electric vehicle (EV) drivers who are renters or own a flat with support towards the costs of the purchase and installation of EV charge points.
+  </p>
+
+  <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key govuk-!-width-one-third">Location</dt>
+      <dd class="govuk-summary-list__value">National, England, Wales, Scotland, Northern Ireland, North East England, North West England, South East England, South West England, Midlands</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Funding organisation</dt>
+      <dd class="govuk-summary-list__value">Office for Zero Emission Vehicles</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Who can apply</dt>
+      <dd class="govuk-summary-list__value">Personal / Individual</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">How much you can get</dt>
+      <dd class="govuk-summary-list__value">From £1 to £500</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Total size of grant scheme</dt>
+      <dd class="govuk-summary-list__value">£500</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Opening date</dt>
+      <dd class="govuk-summary-list__value">1 April 2022, 12:01am (Midnight)</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Closing date</dt>
+      <dd class="govuk-summary-list__value">31 March 2027, 11:59pm (Midnight)</dd>
+    </div>
+  </dl>
+</div>
+
+<!-- Result Item 4: EV Chargepoint Grant for Residential Landlords -->
+<div class="grant-result-item govuk-!-padding-top-4 govuk-!-padding-bottom-6" 
+     data-who="personal public non-profit private local" 
+     data-location="national england wales scotland ni" 
+     style="border-top: 1px solid #b1b4b6;">
+
+  <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
+    <a href="#" class="govuk-link">Electric vehicle chargepoint grant for residential landlords</a>
+  </h3>
+
+  <p class="govuk-body govuk-!-margin-bottom-4">
+    This grant provides landlords with support towards the cost of the purchase and installation of electric vehicle chargepoints at residential properties.
+  </p>
+
+  <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key govuk-!-width-one-third">Location</dt>
+      <dd class="govuk-summary-list__value">National, England, Wales, Scotland, Northern Ireland, North East England, North West England, South East England, South West England, Midlands</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Funding organisation</dt>
+      <dd class="govuk-summary-list__value">Office for Zero Emission Vehicles</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Who can apply</dt>
+      <dd class="govuk-summary-list__value">Personal / Individual, Public Sector, Non-profit, Private Sector, Local authority</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">How much you can get</dt>
+      <dd class="govuk-summary-list__value">From £1 to £100,000</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Total size of grant scheme</dt>
+      <dd class="govuk-summary-list__value">£100,000</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Opening date</dt>
+      <dd class="govuk-summary-list__value">1 April 2022, 12:01am (Midnight)</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Closing date</dt>
+      <dd class="govuk-summary-list__value">31 March 2027, 11:59pm (Midnight)</dd>
+    </div>
+  </dl>
+</div>
+
+<!-- Result Item 5: Boiler Upgrade Scheme -->
+<div class="grant-result-item govuk-!-padding-top-4 govuk-!-padding-bottom-6" 
+     data-who="personal public private" 
+     data-location="england wales" 
+     style="border-top: 1px solid #b1b4b6;">
+
+  <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
+    <a href="#" class="govuk-link">Boiler Upgrade Scheme</a>
+  </h3>
+
+  <p class="govuk-body govuk-!-margin-bottom-4">
+    The Boiler Upgrade Scheme (BUS) supports the decarbonisation of homes and small and medium non-domestic buildings in England and Wales. The scheme provides upfront capital grants of up to £7,500 to encourage property owners to replace existing fossil fuel heating with more efficient, low carbon heating systems including heat pumps and biomass boilers.
+  </p>
+
+  <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key govuk-!-width-one-third">Location</dt>
+      <dd class="govuk-summary-list__value">England, Wales</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Funding organisation</dt>
+      <dd class="govuk-summary-list__value">Department for Energy Security and Net Zero</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Who can apply</dt>
+      <dd class="govuk-summary-list__value">Personal / Individual, Public Sector, Private Sector</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">How much you can get</dt>
+      <dd class="govuk-summary-list__value">From £5,000 to £7,500</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Total size of grant scheme</dt>
+      <dd class="govuk-summary-list__value">£775 million</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Opening date</dt>
+      <dd class="govuk-summary-list__value">23 May 2022, 12:01am (Midnight)</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Closing date</dt>
+      <dd class="govuk-summary-list__value">31 December 2027, 11:59pm (Midnight)</dd>
+    </div>
+  </dl>
+</div>
+
+<!-- Result Item 6: Commissioned Rehabilitative Services -->
+<div class="grant-result-item govuk-!-padding-top-4 govuk-!-padding-bottom-6" 
+     data-who="non-profit" 
+     data-location="england wales" 
+     style="border-top: 1px solid #b1b4b6;">
+  
+  <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
+    <a href="#" class="govuk-link">Commissioned Rehabilitative Services General Grant Scheme</a>
+  </h3>
+
+  <p class="govuk-body govuk-!-margin-bottom-4">
+    Commissioned Rehabilitative Services General Grant Scheme for support for people with shared protected characteristics or shared experiences or to promote rehabilitation and desistance to support the aims of Her Majesty’s Prison and Probation Service (HMPPS) to protect the public and reduce reoffending. This includes the aims to improve people’s engagement in, and experience of, probation and other rehabilitative activities; to support an individual’s rehabilitation and desistance journey; and to improve HMPPS’ knowledge of which activities work to support people and to encourage rehabilitation and desistance.
+  </p>
+
+  <dl class="govuk-summary-list govuk-!-margin-bottom-0">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key govuk-!-width-one-third">Location</dt>
+      <dd class="govuk-summary-list__value">England, Wales</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Funding organisation</dt>
+      <dd class="govuk-summary-list__value">Ministry of Justice</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Who can apply</dt>
+      <dd class="govuk-summary-list__value">Non-profit</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">How much you can get</dt>
+      <dd class="govuk-summary-list__value">From £8,000 to £450,000</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Total size of grant scheme</dt>
+      <dd class="govuk-summary-list__value"></dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Opening date</dt>
+      <dd class="govuk-summary-list__value">22 July 2022, 12:00pm (Midday)</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Closing date</dt>
+      <dd class="govuk-summary-list__value">29 March 2027, 5:00pm</dd>
+    </div>
+  </dl>
+</div>
+
+    <!-- Bottom border before pagination -->
+    <div style="border-top: 1px solid #b1b4b6;" class="govuk-!-margin-bottom-6 govuk-!-margin-top-4"></div>
+
+    <!-- Pagination -->
+    {{ govukPagination({
+      next: { href: "#" },
+      items: [
+        { number: 1, current: true, href: "#" },
+        { number: 2, href: "#" },
+        { number: 3, href: "#" }
+      ]
+    }) }}
+
+  </div>
+</div>
+{% endblock %}

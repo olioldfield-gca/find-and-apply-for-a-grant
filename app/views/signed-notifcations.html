@@ -1,0 +1,48 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Notifications - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  
+  <!-- Import the Service Navigation macro -->
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications",
+        text: "Notifications",
+        active: true
+      },
+      {
+        href: "/signed-manage-applications",
+        text: "Manage applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <!-- Main Content (Left side) -->
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-m">Manage your notifications and saved searches</h2>
+      
+      <p class="govuk-body">
+        You are not signed up for any notifications, and you don't have any saved searches.
+      </p>
+      <p class="govuk-body">
+        <a href="/signed-index" class="govuk-link">Search for grants</a>
+      </p>
+    </div>
+  </div>
+{% endblock %}

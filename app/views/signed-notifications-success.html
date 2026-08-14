@@ -1,0 +1,90 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Success Signed Notifications" %}
+
+{% block header %}
+  {{ super() }}
+  
+  <!-- Import the Service Navigation macro -->
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications",
+        text: "Notifications",
+        active: true
+      },
+      {
+        href: "/signed-manage-applications",
+        text: "Manage applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% call govukNotificationBanner({
+  type: "success"
+}) %}
+  <h3 class="govuk-notification-banner__heading">
+    Success
+  </h3>
+  <p class="govuk-body">You have succesfully signed up for notifications.</p>
+{% endcall %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <!-- Your page content goes here -->
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">
+        Manage your notifications and saved searches
+      </h1>
+
+      <h2 class="govuk-heading-m">
+        Updates about new grants
+      </h2>
+
+      <p class="govuk-body">
+        You signed up for updates on 14 August 2026 at 10:19am.
+      </p>
+
+      {{ govukButton({
+        text: "View Updates",
+        href: "/signed-search",
+        classes: "govuk-button--secondary govuk-!-margin-bottom-4"
+      }) }}
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        <a href="#" class="govuk-link">Unsubscribe from updates about new grants</a>
+      </p>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <p class="govuk-body govuk-!-margin-top-6">
+        You are not signed up for any notifications, and you don't have any saved searches.
+      </p>
+
+      <p class="govuk-body">
+        <a href="/signed-search" class="govuk-link">Search for grants</a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

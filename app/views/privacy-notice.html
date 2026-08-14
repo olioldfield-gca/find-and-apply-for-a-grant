@@ -1,0 +1,76 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "About us" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  
+  <!-- Main Content (Left side) -->
+  <div class="govuk-grid-column-two-thirds">
+    
+    <h1 class="govuk-heading-xl">Privacy notice</h1>
+
+    <h2 class="govuk-heading-l">Who we are</h2>
+    <p class="govuk-body">
+      Find a Grant and Apply for a Grant are digital services run by the Cabinet Office (‘we’). Its purpose is to bring together information from across Government to make it easier for users to search and apply for grants.
+    </p>
+    <p class="govuk-body">
+      As we decide how your data will be collected and processed, we are the ‘data controller’.
+    </p>
+    <p class="govuk-body">
+      In addition, we are joint data controllers with government departments for personal data processed in relation to the administration of their government grants. 
+    </p>
+
+    <h2 class="govuk-heading-l">Why our use of your personal data is lawful</h2>
+    <p class="govuk-body">
+      Processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in the data controller. In this case that is for government departments to streamline the grant application process and facilitate due diligence. And, for departments using the Grants Lifecycle Utility (GLU) or participating grant schemes in the Government Grants Managed Service (GGMS), to further assess grant applications and make award recommendations.
+    </p>
+    <p class="govuk-body">
+      For notifications and for Find a grant to contact you via email to invite you to user research sessions, we will only do so if you have given us consent. This is known as data subject consent.
+    </p>
+    <p class="govuk-body">
+      We do not carry out automated individual decision-making through our grant administration tool, GLU, or the GGMS. The use of Artificial intelligence (AI) in these services is solely to assist administrative processes.
+    </p>
+
+    <h2 class="govuk-heading-l">The personal data we collect</h2>
+    <p class="govuk-body">
+      The personal data we may collect from you includes:
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>email address</li>
+      <li>address</li>
+      <li>name</li>
+      <li>telephone number</li>
+    </ul>
+    
+    <!-- Add remaining H2s, Paragraphs, and Lists here using the same classes -->
+
+  </div>
+
+  <!-- Sidebar (Right side) -->
+  <div class="govuk-grid-column-one-third">
+    
+    <!-- Related Navigation block -->
+    <aside class="govuk-!-margin-top-0" role="complementary">
+      <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-4" style="border-top: 2px solid #1d70b8; border-bottom: none;">
+      
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-3" id="related-content">
+        Related content
+      </h2>
+      
+      <nav aria-labelledby="related-content">
+        <ul class="govuk-list govuk-!-font-size-16">
+          <li class="govuk-!-margin-bottom-2">
+            <a href="/about-us" class="govuk-link">About us</a>
+          </li>
+          <li>
+            <a href="/terms-and-conditions" class="govuk-link">Terms and conditions</a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+  </div>
+</div>
+
+{% endblock %}

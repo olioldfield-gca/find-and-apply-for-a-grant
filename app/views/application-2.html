@@ -1,0 +1,229 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Application 2 - Manage Applications - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications-full",
+        html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>'
+      },
+      {
+        href: "/favourites",
+        text: "Favourites"
+      },
+      {
+        href: "/signed-manage-applications-full",
+        text: "Manage Applications",
+        active: true
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back to your applications",
+    href: "/signed-manage-applications-full"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/tag/macro.njk" import govukTag %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <!-- Page Heading with Caption -->
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+        Application 2
+        <span class="govuk-caption-l govuk-!-margin-top-1">Farming Innovation Programme</span>
+      </h1>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Review and update your application details before submitting.
+      </p>
+
+      <!-- Editable Application Details Summary List -->
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-bottom-8",
+        rows: [
+          {
+            key: { text: "Application reference" },
+            value: { text: "APP-002" }
+          },
+          {
+            key: { text: "Application name" },
+            value: { text: "Application 2" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "application name"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Grant scheme" },
+            value: { text: "Farming Innovation Programme" }
+          },
+          {
+            key: { text: "Status" },
+            value: {
+              html: govukTag({
+                text: "IN PROGRESS",
+                classes: "govuk-tag--grey"
+              })
+            }
+          },
+          {
+            key: { text: "Date submitted" },
+            value: { text: "—" }
+          },
+          {
+            key: { text: "Last updated" },
+            value: { text: "08 Aug 2026" }
+          },
+          {
+            key: { text: "Applicant organisation" },
+            value: { text: "Raphaela Application Ltd" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "applicant organisation"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Contact name" },
+            value: { text: "Raphaela Johnson" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "contact name"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Contact email" },
+            value: { text: "r.johnson@raphaela-app.co.uk" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "contact email"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Requested funding amount" },
+            value: { text: "£25,000" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "requested funding amount"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Project start date" },
+            value: { text: "01 October 2026" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "project start date"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Project end date" },
+            value: { text: "30 September 2027" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "project end date"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Project description" },
+            value: { text: "Developing automated sensors and precision farming techniques to support sustainable high-yield crop management." },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "project description"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <!-- Action Buttons -->
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Submit application",
+          href: "/signed-manage-applications-full"
+        }) }}
+
+        {{ govukButton({
+          text: "Save and return to applications",
+          classes: "govuk-button--secondary",
+          href: "/signed-manage-applications-full"
+        }) }}
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

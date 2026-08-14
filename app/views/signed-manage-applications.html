@@ -1,0 +1,55 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Signed Manage Applications" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/signed-search", text: "Search grants" },
+      { href: "/signed-notifications-full", html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>' },
+      { href: "/favourites", text: "Favourites" },
+      { href: "/signed-manage-applications", text: "Manage applications", active: true },
+      { href: "/signed-account-details", text: "Account details" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">Your applications</h1>
+
+      <p class="govuk-body">
+        All of your current and past applications are listed below.
+      </p>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <p class="govuk-body">
+        You have not started any applications.
+      </p>
+
+      <p class="govuk-body">
+        To get started, you need to find a grant that you want to apply for.
+      </p>
+
+      <p class="govuk-body">
+        <a href="/signed-search" class="govuk-link">Find a grant</a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

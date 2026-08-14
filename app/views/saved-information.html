@@ -1,0 +1,119 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Saved Information" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/signed-search", text: "Search grants" },
+      { href: "/signed-notifcations", text: "Notifications" },
+      { href: "/signed-manage-applications", text: "Manage applications" },
+      { href: "/signed-account-details", text: "Account details" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">Your saved information</h1>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Funding organisations run checks to prevent fraud. The information below will be used as part of these checks.
+      </p>
+
+      <!-- Type of organisation -->
+      {{ govukSummaryList({
+        classes: "govuk-summary-list--no-border govuk-!-margin-bottom-6",
+        rows: [
+          {
+            key: { text: "Type of organisation" },
+            value: { text: "-" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Add",
+                  visuallyHiddenText: "type of organisation"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <!-- Your organisation details section -->
+      <h2 class="govuk-heading-m">Your organisation details</h2>
+
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-bottom-8",
+        rows: [
+          {
+            key: { text: "Name" },
+            value: { text: "-" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Add",
+                  visuallyHiddenText: "organisation name"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Address" },
+            value: { text: "-" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Add",
+                  visuallyHiddenText: "organisation address"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Companies House number" },
+            value: { text: "-" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Add",
+                  visuallyHiddenText: "Companies House number"
+                }
+              ]
+            }
+          },
+          {
+            key: { text: "Charity Commission number" },
+            value: { text: "-" },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Add",
+                  visuallyHiddenText: "Charity Commission number"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <!-- Back button -->
+      {{ govukButton({
+        text: "Back to my account",
+        classes: "govuk-button--secondary",
+        href: "/signed-account-details"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

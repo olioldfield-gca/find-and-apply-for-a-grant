@@ -1,0 +1,125 @@
+//
+// For guidance on how to add CSS and SCSS see:
+// https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
+//
+
+.prototype-govuk-header {
+  background: #0b0c0c;
+  border-bottom: 0;
+  color: #fff;
+}
+
+.prototype-govuk-header__container {
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+}
+
+.prototype-govuk-header__branding {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+}
+
+.prototype-govuk-header__govuk-link,
+.prototype-govuk-header__govuk-link:link,
+.prototype-govuk-header__govuk-link:visited,
+.prototype-govuk-header__govuk-link:hover,
+.prototype-govuk-header__govuk-link:focus,
+.prototype-govuk-header__govuk-link:active,
+.prototype-govuk-header__service-link,
+.prototype-govuk-header__service-link:link,
+.prototype-govuk-header__service-link:visited,
+.prototype-govuk-header__service-link:hover,
+.prototype-govuk-header__service-link:focus,
+.prototype-govuk-header__service-link:active {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
+.prototype-govuk-header__govuk-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.prototype-govuk-header__crest {
+  width: 46px !important;
+  height: 42px !important;
+  display: block;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.prototype-govuk-header__govuk-text {
+  font-size: 1.8rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.prototype-govuk-header__service-link {
+  display: inline-block;
+  font-size: 2.1rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.prototype-govuk-header__govuk-link:hover,
+.prototype-govuk-header__govuk-link:focus,
+.prototype-govuk-header__service-link:hover,
+.prototype-govuk-header__service-link:focus {
+  text-decoration: underline !important;
+}
+
+.govuk-service-navigation {
+  border-top: 1px solid #b1b4b6;
+  border-bottom: 1px solid #b1b4b6;
+  background: #fff;
+}
+
+.govuk-service-navigation__link,
+.govuk-service-navigation__text,
+.govuk-service-navigation__service-name .govuk-service-navigation__link,
+.govuk-service-navigation__service-name .govuk-service-navigation__text {
+  color: #0b0c0c;
+  font-weight: 700;
+}
+
+.govuk-service-navigation__wrapper {
+  margin-left: 0;
+}
+
+.govuk-service-navigation__list {
+  justify-content: flex-start;
+  gap: 0.75rem 2rem;
+}
+
+.grant-card {
+  background: govuk-colour("light-grey");
+  border: 1px solid $govuk-border-colour;
+  padding: govuk-spacing(4);
+  margin-bottom: govuk-spacing(4);
+}
+
+.grant-card__meta {
+  margin-bottom: govuk-spacing(2);
+}
+
+.grant-card__meta .govuk-tag {
+  margin-right: govuk-spacing(2);
+  margin-bottom: govuk-spacing(2);
+}
+
+.grant-card__title {
+  margin-top: 0;
+}
+
+.search-summary {
+  border-bottom: 1px solid $govuk-border-colour;
+  margin-bottom: govuk-spacing(5);
+  padding-bottom: govuk-spacing(3);
+}

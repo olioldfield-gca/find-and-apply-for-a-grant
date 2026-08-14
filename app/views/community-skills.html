@@ -1,0 +1,152 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Community Skills Fund - Manage Applications - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications-full",
+        html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>'
+      },
+      {
+        href: "/favourites",
+        text: "Favourites"
+      },
+      {
+        href: "/signed-manage-applications-full",
+        text: "Manage Applications",
+        active: true
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back to your applications",
+    href: "/signed-manage-applications-full"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/tag/macro.njk" import govukTag %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+
+    /* Read-only notification panel */
+    .app-read-only-panel {
+      background-color: #f3f2f1;
+      border: 1px solid #b1b4b6;
+      padding: 15px 20px;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <!-- Read-only notification panel -->
+      <div class="app-read-only-panel govuk-!-margin-bottom-6">
+        <p class="govuk-body govuk-!-margin-bottom-0">
+          <strong>Read only.</strong> This application has been approved and cannot be edited.
+        </p>
+      </div>
+
+      <!-- Page Heading with Caption -->
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+        Community Skills Fund
+        <span class="govuk-caption-l govuk-!-margin-top-1">Levelling Up Skills Programme</span>
+      </h1>
+
+      <!-- Application Details Summary List -->
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-top-6",
+        rows: [
+          {
+            key: { text: "Application reference" },
+            value: { text: "APP-004" }
+          },
+          {
+            key: { text: "Application name" },
+            value: { text: "Community Skills Fund" }
+          },
+          {
+            key: { text: "Grant scheme" },
+            value: { text: "Levelling Up Skills Programme" }
+          },
+          {
+            key: { text: "Status" },
+            value: {
+              html: govukTag({
+                text: "APPROVED",
+                classes: "govuk-tag--green"
+              })
+            }
+          },
+          {
+            key: { text: "Date submitted" },
+            value: { text: "14 May 2026" }
+          },
+          {
+            key: { text: "Last updated" },
+            value: { text: "01 Aug 2026" }
+          },
+          {
+            key: { text: "Applicant organisation" },
+            value: { text: "Raphaela Application Ltd" }
+          },
+          {
+            key: { text: "Contact name" },
+            value: { text: "Raphaela Johnson" }
+          },
+          {
+            key: { text: "Contact email" },
+            value: { text: "r.johnson@raphaela-app.co.uk" }
+          },
+          {
+            key: { text: "Requested funding amount" },
+            value: { text: "£35,000" }
+          },
+          {
+            key: { text: "Project start date" },
+            value: { text: "01 September 2026" }
+          },
+          {
+            key: { text: "Project end date" },
+            value: { text: "31 August 2027" }
+          },
+          {
+            key: { text: "Project description" },
+            value: { text: "Upskilling local residents in digital tools and green energy installation techniques to support employment across regional growth sectors." }
+          }
+        ]
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

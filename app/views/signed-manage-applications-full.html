@@ -1,0 +1,217 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Signed Manage Applications - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/signed-search", text: "Search grants" },
+      { href: "/signed-notifications-full", html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>' },
+      { href: "/favourites", text: "Favourites" },
+      { href: "/signed-manage-applications-full", text: "Manage applications", active: true },
+      { href: "/signed-account-details", text: "Account details" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/tag/macro.njk" import govukTag %}
+
+  <!-- Custom Styles moved INSIDE content block -->
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+
+    /* MOJ / GOV.UK Action Menu Popover Styles */
+    .app-action-menu {
+      position: relative;
+      display: inline-block;
+    }
+
+    .app-action-menu__summary {
+      cursor: pointer;
+      list-style: none;
+      text-decoration: underline;
+      color: #1d70b8;
+      font-size: 19px;
+    }
+
+    .app-action-menu__summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .app-action-menu__dropdown {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      z-index: 100;
+      width: 200px;
+      background-color: #ffffff;
+      border: 2px solid #0b0c0c;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      padding: 0;
+      margin-top: 4px;
+    }
+
+    .app-action-menu__item {
+      display: block;
+      padding: 12px 16px;
+      color: #1d70b8;
+      text-decoration: underline;
+      font-size: 19px;
+      border-bottom: 1px solid #b1b4b6;
+    }
+
+    .app-action-menu__item:last-child {
+      border-bottom: none;
+    }
+
+    .app-action-menu__item:hover,
+    .app-action-menu__item:focus {
+      background-color: #f3f2f1;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Your applications</h1>
+
+      <p class="govuk-body">
+        All of your current and past applications are listed below.
+      </p>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <!-- Applications Table -->
+      <table class="govuk-table" data-module="moj-sortable-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header" aria-sort="none">Application Name</th>
+            <th scope="col" class="govuk-table__header" aria-sort="none">Status</th>
+            <th scope="col" class="govuk-table__header" aria-sort="none">Submitted</th>
+            <th scope="col" class="govuk-table__header" aria-sort="none">Last Updated</th>
+            <th scope="col" class="govuk-table__header">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+
+          <!-- Row 1: Application A -->
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-weight-bold">Application A</td>
+            <td class="govuk-table__cell">
+              {{ govukTag({ text: "SUBMITTED", classes: "govuk-tag--blue" }) }}
+            </td>
+            <td class="govuk-table__cell">10 Aug 2026</td>
+            <td class="govuk-table__cell">10 Aug 2026</td>
+            <td class="govuk-table__cell">
+              <details class="app-action-menu">
+                <summary class="app-action-menu__summary">Actions</summary>
+                <div class="app-action-menu__dropdown">
+                  <p class="govuk-body govuk-!-margin-bottom-2">
+                    <a href="/application-a" class="govuk-link">View (read only)</a>
+                  </p>
+                  <p class="govuk-body govuk-!-margin-bottom-0">
+                    <a href="/file-upload" class="govuk-link">Upload document</a>
+                  </p>
+                </div>
+              </details>
+            </td>
+          </tr>
+
+          <!-- Row 2: Application 2 -->
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-weight-bold">Application 2</td>
+            <td class="govuk-table__cell">
+              {{ govukTag({ text: "IN PROGRESS", classes: "govuk-tag--grey" }) }}
+            </td>
+            <td class="govuk-table__cell">—</td>
+            <td class="govuk-table__cell">08 Aug 2026</td>
+            <td class="govuk-table__cell">
+              <a href="/application-2" class="govuk-link">Edit</a>
+            </td>
+          </tr>
+
+          <!-- Row 3: Green Energy Initiative -->
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-weight-bold">Green Energy Initiative</td>
+            <td class="govuk-table__cell">
+              {{ govukTag({ text: "IN REVIEW", classes: "govuk-tag--orange" }) }}
+            </td>
+            <td class="govuk-table__cell">22 Jul 2026</td>
+            <td class="govuk-table__cell">05 Aug 2026</td>
+            <td class="govuk-table__cell">
+              <details class="app-action-menu">
+                <summary class="app-action-menu__summary">Actions</summary>
+                <div class="app-action-menu__dropdown">
+                  <p class="govuk-body govuk-!-margin-bottom-2">
+                    <a href="/green-energy" class="govuk-link">View (read only)</a>
+                  </p>
+                  <p class="govuk-body govuk-!-margin-bottom-0">
+                    <a href="/file-upload" class="govuk-link">Upload document</a>
+                  </p>
+                </div>
+              </details>
+            </td>
+          </tr>
+
+          <!-- Row 4: Community Skills Fund -->
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-weight-bold">Community Skills Fund</td>
+            <td class="govuk-table__cell">
+              {{ govukTag({ text: "APPROVED", classes: "govuk-tag--green" }) }}
+            </td>
+            <td class="govuk-table__cell">14 May 2026</td>
+            <td class="govuk-table__cell">01 Aug 2026</td>
+            <td class="govuk-table__cell">
+              <a href="/community-skills" class="govuk-link">View</a>
+            </td>
+          </tr>
+
+          <!-- Row 5: Heritage Restoration Project -->
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-weight-bold">Heritage Restoration Project</td>
+            <td class="govuk-table__cell">
+              {{ govukTag({ text: "REJECTED", classes: "govuk-tag--red" }) }}
+            </td>
+            <td class="govuk-table__cell">03 Mar 2026</td>
+            <td class="govuk-table__cell">18 Jul 2026</td>
+            <td class="govuk-table__cell">
+              <a href="/heritage" class="govuk-link">View</a>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <p class="govuk-body">
+        To get started, you need to find a grant that you want to apply for.
+      </p>
+
+      <p class="govuk-body">
+        <a href="/signed-search" class="govuk-link">Find a grant</a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Notifications" %}
+
+{% block header %}
+  {{ super() }}
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications",
+        text: "Notifications"
+      },
+      {
+        href: "/signed-manage-applications",
+        text: "Manage applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details"
+      }
+    ]
+  }) }}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">
+        Are you sure you want to unsubscribe from updates about new grants?
+      </h1>
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Yes, unsubscribe",
+          href: "/signed-notifications"
+        }) }}
+
+        <a class="govuk-link" href="/signed-search">Cancel</a>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
