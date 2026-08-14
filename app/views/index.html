@@ -52,21 +52,25 @@
         <li>find out how to apply for a grant</li> 
       </ul>
 
-      {{ govukInput({
-        hint: {
-          text: "Find government grants and check if you are eligible to apply."
-        },
-        id: "search-keyword",
-        name: "searchKeyword"
-      }) }}
+      <!-- SEARCH FORM WRAPPER -->
+      <form action="/search" method="get">
+        {{ govukInput({
+          hint: {
+            text: "Find government grants and check if you are eligible to apply."
+          },
+          id: "search-keyword",
+          name: "searchKeyword"
+        }) }}
 
-      {{ govukButton({
-        text: "Search grants"
-      }) }}
+        {{ govukButton({
+          text: "Search grants",
+          href: "/search"
+        }) }}
+      </form>
   
       <h2 class="govuk-heading-m">Browse all grants</h2>
       <p class="govuk-body">See a list of all grants. You can filter the list based on your needs</p>
-      <p class="govuk-body"><a href="/results" class="govuk-link">Browse grants</a></p>
+      <p class="govuk-body"><a href="/search" class="govuk-link">Browse grants</a></p>
     
       <h2 class="govuk-heading-m">The future of Find a grant</h2>
       <p class="govuk-body">More grants will be added as we develop our service. We will also add new functionality to make it easier to use.</p>
