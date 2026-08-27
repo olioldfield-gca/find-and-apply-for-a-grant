@@ -1,0 +1,127 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "What is your organisation type? - Apply for a grant" %}
+
+{% block header %}
+  {{ super() }}
+
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications-full",
+        html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>'
+      },
+      {
+        href: "/favourites",
+        text: "Favourites"
+      },
+      {
+        href: "/signed-manage-applications-full",
+        text: "Manage Applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details",
+        active: true
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+  
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/radios/macro.njk" import govukRadios %}
+  {% from "govuk/components/details/macro.njk" import govukDetails %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      <form action="/your-saved-information" method="post" novalidate>
+        
+        {{ govukRadios({
+          name: "organisationType",
+          fieldset: {
+            legend: {
+              text: "What is your organisation type? (optional)",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "Choose the option that best describes you or your organisation"
+          },
+          items: [
+            {
+              value: "limited-company",
+              text: "Limited company"
+            },
+            {
+              value: "non-limited-company",
+              text: "Non-limited company"
+            },
+            {
+              value: "charity",
+              text: "Charity"
+            },
+            {
+              value: "individual",
+              text: "I am applying as an individual"
+            },
+            {
+              value: "local-authority",
+              text: "Local authority"
+            },
+            {
+              value: "other",
+              text: "Other"
+            }
+          ]
+        }) }}
+
+        {{ govukDetails({
+          summaryText: "Why do we need this information?",
+          text: "It helps us to identify you or your organisation. We use this information for due diligence checks and to prevent fraud."
+        }) }}
+
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Save"
+          }) }}
+          
+          <a class="govuk-link" href="/your-saved-information">Cancel</a>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

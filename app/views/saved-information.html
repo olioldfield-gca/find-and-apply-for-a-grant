@@ -9,6 +9,7 @@
     navigation: [
       { href: "/signed-search", text: "Search grants" },
       { href: "/signed-notifications", text: "Notifications" },
+      { href: "/signed-favourites", text: "Favourites" },
       { href: "/signed-manage-applications", text: "Manage applications" },
       { href: "/signed-account-details", text: "Account details" }
     ]
@@ -16,8 +17,37 @@
 {% endblock %}
 
 {% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
 
-<div class="govuk-grid-row">
+  {% set orgTypeDisplay = "-" %}
+  {% set actionText = "Add" %}
+  {% set typeKeyText = "Type of organisation" %}
+  {% set detailsHeading = "Your organisation details" %}
+  {% set isIndividual = false %}
+
+  {% if data['organisationType'] %}
+    {% set actionText = "Change" %}
+    
+    {% if data['organisationType'] == "limited-company" %}
+      {% set orgTypeDisplay = "Limited company" %}
+    {% elif data['organisationType'] == "non-limited-company" %}
+      {% set orgTypeDisplay = "Non-limited company" %}
+    {% elif data['organisationType'] == "charity" %}
+      {% set orgTypeDisplay = "Charity" %}
+    {% elif data['organisationType'] == "individual" %}
+      {% set orgTypeDisplay = "I am applying as an individual" %}
+      {% set typeKeyText = "Type of application" %}
+      {% set detailsHeading = "Your details" %}
+      {% set isIndividual = true %}
+    {% elif data['organisationType'] == "local-authority" %}
+      {% set orgTypeDisplay = "Local authority" %}
+    {% elif data['organisationType'] == "other" %}
+      {% set orgTypeDisplay = "Other" %}
+    {% endif %}
+  {% endif %}
+
+  <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
       <h1 class="govuk-heading-xl">Your saved information</h1>
@@ -26,19 +56,19 @@
         Funding organisations run checks to prevent fraud. The information below will be used as part of these checks.
       </p>
 
-      <!-- Type of organisation -->
+      <!-- Type of application/organisation -->
       {{ govukSummaryList({
         classes: "govuk-summary-list--no-border govuk-!-margin-bottom-6",
         rows: [
           {
-            key: { text: "Type of organisation" },
-            value: { text: "-" },
+            key: { text: typeKeyText },
+            value: { text: orgTypeDisplay },
             actions: {
               items: [
                 {
-                  href: "#",
-                  text: "Add",
-                  visuallyHiddenText: "type of organisation"
+                  href: "/organisation-type",
+                  text: actionText,
+                  visuallyHiddenText: "organisation type"
                 }
               ]
             }
@@ -46,65 +76,56 @@
         ]
       }) }}
 
-      <!-- Your organisation details section -->
-      <h2 class="govuk-heading-m">Your organisation details</h2>
+      <!-- Your details section -->
+      <h2 class="govuk-heading-m">{{ detailsHeading }}</h2>
+
+      <!-- We build the rows array dynamically so we can hide company numbers for individuals -->
+      {% set detailsRows = [
+        {
+          key: { text: "Name" },
+          value: { text: "-" },
+          actions: {
+            items: [
+              { href: "#", text: "Add", visuallyHiddenText: "organisation name" }
+            ]
+          }
+        },
+        {
+          key: { text: "Address" },
+          value: { text: "-" },
+          actions: {
+            items: [
+              { href: "#", text: "Add", visuallyHiddenText: "organisation address" }
+            ]
+          }
+        }
+      ] %}
+
+      {% if not isIndividual %}
+        {% set detailsRows = (detailsRows.push({
+          key: { text: "Companies House number" },
+          value: { text: "-" },
+          actions: {
+            items: [
+              { href: "#", text: "Add", visuallyHiddenText: "Companies House number" }
+            ]
+          }
+        }), detailsRows) %}
+
+        {% set detailsRows = (detailsRows.push({
+          key: { text: "Charity Commission number" },
+          value: { text: "-" },
+          actions: {
+            items: [
+              { href: "#", text: "Add", visuallyHiddenText: "Charity Commission number" }
+            ]
+          }
+        }), detailsRows) %}
+      {% endif %}
 
       {{ govukSummaryList({
         classes: "govuk-!-margin-bottom-8",
-        rows: [
-          {
-            key: { text: "Name" },
-            value: { text: "-" },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Add",
-                  visuallyHiddenText: "organisation name"
-                }
-              ]
-            }
-          },
-          {
-            key: { text: "Address" },
-            value: { text: "-" },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Add",
-                  visuallyHiddenText: "organisation address"
-                }
-              ]
-            }
-          },
-          {
-            key: { text: "Companies House number" },
-            value: { text: "-" },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Add",
-                  visuallyHiddenText: "Companies House number"
-                }
-              ]
-            }
-          },
-          {
-            key: { text: "Charity Commission number" },
-            value: { text: "-" },
-            actions: {
-              items: [
-                {
-                  href: "#",
-                  text: "Add",
-                  visuallyHiddenText: "Charity Commission number"
-                }
-              ]
-            }
-          }
-        ]
+        rows: detailsRows
       }) }}
 
       <!-- Back button -->
@@ -116,4 +137,8 @@
 
     </div>
   </div>
+  
+  <!-- Debugger (Delete this once you confirm it works) -->
+  <pre>{{ data | dump }}</pre>
+
 {% endblock %}

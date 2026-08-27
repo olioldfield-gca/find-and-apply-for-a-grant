@@ -33,3 +33,4 @@ router.get('/feedback', function (req, res) {
 router.get('/about-us', function (req, res) {
   res.render('about-us')
 })
+
