@@ -35,6 +35,7 @@
 {% endblock %}
 
 {% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
   {% from "govuk/components/button/macro.njk" import govukButton %}
 
   <style>
@@ -60,118 +61,141 @@
     }
   </style>
 
+  {% set orgTypeDisplay = "-" %}
+  {% set actionText = "Add" %}
+  {% set typeKeyText = "Type of organisation" %}
+  {% set detailsHeading = "Your organisation details" %}
+  {% set isIndividual = false %}
+
+  {% if data['organisationType'] %}
+    {% set actionText = "Change" %}
+    
+    {% if data['organisationType'] == "limited-company" %}
+      {% set orgTypeDisplay = "Limited company" %}
+    {% elif data['organisationType'] == "non-limited-company" %}
+      {% set orgTypeDisplay = "Non-limited company" %}
+    {% elif data['organisationType'] == "charity" %}
+      {% set orgTypeDisplay = "Charity" %}
+    {% elif data['organisationType'] == "individual" %}
+      {% set orgTypeDisplay = "I am applying as an individual" %}
+      {% set typeKeyText = "Type of application" %}
+      {% set detailsHeading = "Your details" %}
+      {% set isIndividual = true %}
+    {% elif data['organisationType'] == "local-authority" %}
+      {% set orgTypeDisplay = "Local authority" %}
+    {% elif data['organisationType'] == "other" %}
+      {% set orgTypeDisplay = "Other" %}
+    {% endif %}
+  {% endif %}
+
+  {% set nameDisplay = "-" %}
+  {% set nameActionText = "Add" %}
+  {% if data['name'] %}
+    {% set nameDisplay = data['name'] %}
+    {% set nameActionText = "Change" %}
+  {% endif %}
+
+  {% set addressActionText = "Add" %}
+  {% set addressValue = { text: "-" } %}
+
+  {% set addressParts = [] %}
+  {% if data['addressLine1'] %}{% set addressParts = (addressParts.push(data['addressLine1']), addressParts) %}{% endif %}
+  {% if data['addressLine2'] %}{% set addressParts = (addressParts.push(data['addressLine2']), addressParts) %}{% endif %}
+  {% if data['addressTown'] %}{% set addressParts = (addressParts.push(data['addressTown']), addressParts) %}{% endif %}
+  {% if data['addressCounty'] %}{% set addressParts = (addressParts.push(data['addressCounty']), addressParts) %}{% endif %}
+  {% if data['addressPostcode'] %}{% set addressParts = (addressParts.push(data['addressPostcode']), addressParts) %}{% endif %}
+
+  {% if addressParts.length > 0 %}
+    {% set addressValue = { html: addressParts | join("<br>") } %}
+    {% set addressActionText = "Change" %}
+  {% endif %}
+
   <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    
-    <h1 class="govuk-heading-l">Your saved information</h1>
-    
-    <p class="govuk-body">
-      Funding organisations run checks to prevent fraud. The information below will be used as part of these checks.
-    </p>
+    <div class="govuk-grid-column-two-thirds">
+      
+      <h1 class="govuk-heading-l">Your saved information</h1>
+      
+      <p class="govuk-body">
+        Funding organisations run checks to prevent fraud. The information below will be used as part of these checks.
+      </p>
 
-    {{ govukSummaryList({
-      rows: [
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              text: typeKeyText
+            },
+            value: {
+              text: orgTypeDisplay
+            },
+            actions: {
+              items: [
+                {
+                  href: "/organisation-type",
+                  text: actionText,
+                  visuallyHiddenText: "organisation type"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">{{ detailsHeading }}</h2>
+
+      {% set detailsRows = [
         {
-          key: {
-            text: "Type of organisation"
-          },
-          value: {
-            text: "-"
-          },
+          key: { text: "Name" },
+          value: { text: nameDisplay },
           actions: {
             items: [
-              {
-                href: "/organisation-type",
-                text: "Add",
-                visuallyHiddenText: "type of organisation"
-              }
+              { href: "/name", text: nameActionText, visuallyHiddenText: "name" }
+            ]
+          }
+        },
+        {
+          key: { text: "Address" },
+          value: addressValue,
+          actions: {
+            items: [
+              { href: "/personal-address", text: addressActionText, visuallyHiddenText: "address" }
             ]
           }
         }
-      ]
-    }) }}
+      ] %}
 
-    <h2 class="govuk-heading-m">Your organisation details</h2>
-
-    {{ govukSummaryList({
-      rows: [
-        {
-          key: {
-            text: "Name"
-          },
-          value: {
-            text: "-"
-          },
+      {% if not isIndividual %}
+        {% set detailsRows = (detailsRows.push({
+          key: { text: "Companies House number" },
+          value: { text: "-" },
           actions: {
             items: [
-              {
-                href: "#",
-                text: "Add",
-                visuallyHiddenText: "name"
-              }
+              { href: "#", text: "Add", visuallyHiddenText: "Companies House number" }
             ]
           }
-        },
-        {
-          key: {
-            text: "Address"
-          },
-          value: {
-            text: "-"
-          },
-          actions: {
-            items: [
-              {
-                href: "#",
-                text: "Add",
-                visuallyHiddenText: "address"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Companies House number"
-          },
-          value: {
-            text: "-"
-          },
-          actions: {
-            items: [
-              {
-                href: "#",
-                text: "Add",
-                visuallyHiddenText: "Companies House number"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Charity Commission number"
-          },
-          value: {
-            text: "-"
-          },
-          actions: {
-            items: [
-              {
-                href: "#",
-                text: "Add",
-                visuallyHiddenText: "Charity Commission number"
-              }
-            ]
-          }
-        }
-      ]
-    }) }}
+        }), detailsRows) %}
 
-    {{ govukButton({
-      text: "Back to my account",
-      classes: "govuk-button--secondary",
-      href: "/signed-account-details"
-    }) }}
+        {% set detailsRows = (detailsRows.push({
+          key: { text: "Charity Commission number" },
+          value: { text: "-" },
+          actions: {
+            items: [
+              { href: "#", text: "Add", visuallyHiddenText: "Charity Commission number" }
+            ]
+          }
+        }), detailsRows) %}
+      {% endif %}
 
+      {{ govukSummaryList({
+        rows: detailsRows
+      }) }}
+
+      {{ govukButton({
+        text: "Back to my account",
+        classes: "govuk-button--secondary",
+        href: "/signed-account-details"
+      }) }}
+
+    </div>
   </div>
-</div>
 {% endblock %}

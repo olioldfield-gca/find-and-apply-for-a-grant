@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName = "Signed Account Details - Find a grant" %}
+{% set pageName = "Your sign in details - Apply for a grant" %}
 
 {% block header %}
   {{ super() }}
@@ -18,12 +18,8 @@
         html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>'
       },
       {
-        href: "/favourites",
-        text: "Favourites"
-      },
-      {
         href: "/signed-manage-applications-full",
-        text: "Manage applications"
+        text: "Manage Applications"
       },
       {
         href: "/signed-account-details",
@@ -31,6 +27,15 @@
         active: true
       }
     ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
   }) }}
 {% endblock %}
 
@@ -49,103 +54,33 @@
       background-color: #d4351c;
       vertical-align: middle;
     }
-
-    /* Details Card Pattern */
-    .app-card {
-      background-color: #f3f2f1;
-      border: 1px solid #b1b4b6;
-      padding: 20px;
-      height: 100%;
-      box-sizing: border-box;
-    }
   </style>
 
   <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds-from-desktop">
-    
-    <h1 class="govuk-heading-l">Your saved information</h1>
-    
-    <p class="govuk-body">
-      Funding organisations run checks to prevent fraud. The information below will be used as part of these checks.
-    </p>
+    <div class="govuk-grid-column-two-thirds">
 
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Type of organisation
-        </dt>
-        <dd class="govuk-summary-list__value">
-          -
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="#">
-            Add<span class="govuk-visually-hidden"> type of organisation</span>
-          </a>
-        </dd>
-      </div>
-    </dl>
+      <h1 class="govuk-heading-l">Your sign in details</h1>
 
-    <h2 class="govuk-heading-m">Your organisation details</h2>
+      <p class="govuk-body">
+        You use your GOV.UK One Login to sign in to Find a grant.
+      </p>
 
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Name
-        </dt>
-        <dd class="govuk-summary-list__value">
-          -
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="#">
-            Add<span class="govuk-visually-hidden"> name</span>
-          </a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Address
-        </dt>
-        <dd class="govuk-summary-list__value">
-          -
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="#">
-            Add<span class="govuk-visually-hidden"> address</span>
-          </a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Companies House number
-        </dt>
-        <dd class="govuk-summary-list__value">
-          -
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="#">
-            Add<span class="govuk-visually-hidden"> Companies House number</span>
-          </a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Charity Commission number
-        </dt>
-        <dd class="govuk-summary-list__value">
-          -
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="#">
-            Add<span class="govuk-visually-hidden"> Charity Commission number</span>
-          </a>
-        </dd>
-      </div>
-    </dl>
+      <p class="govuk-body">
+        You can change these details in your GOV.UK One Login:
+      </p>
 
-    <a href="/signed-account-details" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-      Back to my account
-    </a>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>email address</li>
+        <li>password</li>
+        <li>how you get security codes to sign in</li>
+      </ul>
 
+      {{ govukButton({
+        text: "Change your sign in details in your GOV.UK One Login",
+        href: "https://home.account.gov.uk/security",
+        classes: "govuk-!-margin-top-4"
+      }) }}
+
+    </div>
   </div>
-</div>
 {% endblock %}

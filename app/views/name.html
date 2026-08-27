@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% set pageName = "What is your organisation type? - Apply for a grant" %}
+{% set pageName = "Enter your name - Apply for a grant" %}
 
 {% block header %}
   {{ super() }}
@@ -44,8 +44,7 @@
 {% endblock %}
 
 {% block content %}
-  {% from "govuk/components/radios/macro.njk" import govukRadios %}
-  {% from "govuk/components/details/macro.njk" import govukDetails %}
+  {% from "govuk/components/input/macro.njk" import govukInput %}
   {% from "govuk/components/button/macro.njk" import govukButton %}
 
   <style>
@@ -62,54 +61,31 @@
     }
   </style>
 
+  {% set headingText = "Enter your organisation's name (Optional)" %}
+  {% set hintText = "Enter the official name of your organisation." %}
+
+  {% if data['organisationType'] == 'individual' %}
+    {% set headingText = "Enter your full name (Optional)" %}
+    {% set hintText = "Your name will appear on your application." %}
+  {% endif %}
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       
-      <form action="/save-organisation-type" method="post" novalidate>
+      <form action="/save-name" method="post" novalidate>
         
-        {{ govukRadios({
-          name: "organisationType",
-          fieldset: {
-            legend: {
-              text: "What is your organisation type? (optional)",
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
-            }
+        {{ govukInput({
+          label: {
+            text: headingText,
+            isPageHeading: true,
+            classes: "govuk-label--l"
           },
           hint: {
-            text: "Choose the option that best describes you or your organisation"
+            text: hintText
           },
-          items: [
-            {
-              value: "limited-company",
-              text: "Limited company"
-            },
-            {
-              value: "non-limited-company",
-              text: "Non-limited company"
-            },
-            {
-              value: "charity",
-              text: "Charity"
-            },
-            {
-              value: "individual",
-              text: "I am applying as an individual"
-            },
-            {
-              value: "local-authority",
-              text: "Local authority"
-            },
-            {
-              value: "other",
-              text: "Other"
-            }
-          ]
-        }) }}
-
-        {{ govukDetails({
-          summaryText: "Why do we need this information?",
-          text: "It helps us to identify you or your organisation. We use this information for due diligence checks and to prevent fraud."
+          id: "name",
+          name: "name",
+          value: data['name']
         }) }}
 
         <div class="govuk-button-group">
