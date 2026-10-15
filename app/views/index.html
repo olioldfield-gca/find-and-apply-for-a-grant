@@ -27,6 +27,7 @@
 
 <!-- Import all necessary GOV.UK macros here -->
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
   <!-- Logo placed INSIDE content block -->
@@ -63,8 +64,34 @@
         }) }}
 
         {{ govukButton({
-          text: "Search grants",
-          href: "/search"
+          text: "Search grants"
+        }) }}
+
+        {{ govukRadios({
+          name: "status",
+          fieldset: {
+            legend: {
+              text: "Filter by status",
+              isPageHeading: false,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          classes: "govuk-radios--small",
+          items: [
+            {
+              value: "all",
+              text: "All opportunities",
+              checked: true
+            },
+            {
+              value: "open",
+              text: "Open for applications"
+            },
+            {
+              value: "upcoming",
+              text: "Upcoming grants"
+            }
+          ]
         }) }}
       </form>
   
