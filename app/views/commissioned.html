@@ -1,0 +1,117 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Commissioned Rehabilitative Services General Grant Scheme - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/index", text: "Home" },
+      { href: "/search", text: "Browse grants", active: true },
+      { href: "/about-us", text: "About us" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "/search"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <!-- Page Heading & Department Caption -->
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+        Commissioned Rehabilitative Services General Grant Scheme
+        <span class="govuk-caption-l govuk-!-margin-top-1">Ministry of Justice</span>
+      </h1>
+
+      <!-- Key Dates & Details Summary List -->
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-top-6 govuk-!-margin-bottom-8",
+        rows: [
+          {
+            key: { text: "Grant opens" },
+            value: { text: "22 Jul 2022" }
+          },
+          {
+            key: { text: "Grant closes" },
+            value: { text: "29 Mar 2027" }
+          },
+          {
+            key: { text: "Minimum grant" },
+            value: { text: "£8,000" }
+          },
+          {
+            key: { text: "Maximum grant" },
+            value: { text: "£450,000" }
+          },
+          {
+            key: { text: "Total scheme funding" },
+            value: { text: "Not specified" }
+          },
+          {
+            key: { text: "Funding body" },
+            value: { text: "Ministry of Justice" }
+          }
+        ]
+      }) }}
+
+      <!-- About this grant section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">About this grant</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-8">
+        Commissioned Rehabilitative Services General Grant Scheme provides support for people with shared protected characteristics or shared experiences, or to promote rehabilitation and desistance to support the aims of Her Majesty’s Prison and Probation Service (HMPPS) to protect the public and reduce reoffending. This includes the aims to improve people’s engagement in, and experience of, probation and other rehabilitative activities; to support an individual’s rehabilitation and desistance journey; and to improve HMPPS’ knowledge of which activities work to support people and to encourage rehabilitation and desistance.
+      </p>
+
+      <!-- Who can apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">Who can apply</h2>
+
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-8">
+        <li>Non-profit organisations</li>
+        <li>Eligible regions: England, Wales</li>
+      </ul>
+
+      <!-- How to apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">How to apply</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Applications must be submitted through this service before the closing date. You will need to provide evidence of eligibility and a project plan as part of your submission.
+      </p>
+
+      <!-- Start Application Call to Action -->
+      {{ govukButton({
+        text: "Start application",
+        href: "#",
+        isStartButton: true,
+        classes: "govuk-!-margin-top-2"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

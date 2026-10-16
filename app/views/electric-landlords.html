@@ -1,0 +1,119 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Electric vehicle chargepoint grant for residential landlords - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/index", text: "Home" },
+      { href: "/search", text: "Browse grants", active: true },
+      { href: "/about-us", text: "About us" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "/search"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <!-- Page Heading & Department Caption -->
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+        Electric vehicle chargepoint grant for residential landlords
+        <span class="govuk-caption-l govuk-!-margin-top-1">Office for Zero Emission Vehicles</span>
+      </h1>
+
+      <!-- Key Dates & Details Summary List -->
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-top-6 govuk-!-margin-bottom-8",
+        rows: [
+          {
+            key: { text: "Grant opens" },
+            value: { text: "01 Apr 2022" }
+          },
+          {
+            key: { text: "Grant closes" },
+            value: { text: "31 Mar 2027" }
+          },
+          {
+            key: { text: "Minimum grant" },
+            value: { text: "£1" }
+          },
+          {
+            key: { text: "Maximum grant" },
+            value: { text: "£100,000" }
+          },
+          {
+            key: { text: "Total scheme funding" },
+            value: { text: "£100,000" }
+          },
+          {
+            key: { text: "Funding body" },
+            value: { text: "Office for Zero Emission Vehicles" }
+          }
+        ]
+      }) }}
+
+      <!-- About this grant section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">About this grant</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-8">
+        This grant provides landlords with support towards the cost of the purchase and installation of electric vehicle chargepoints at residential properties. Landlords can receive up to 75% off the cost of purchasing and installing a chargepoint socket (capped at £350 per socket), for up to 200 residential properties per financial year.
+      </p>
+
+      <!-- Who can apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">Who can apply</h2>
+
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-8">
+        <li>Landlords, right to manage (RTM) companies, and residential property management companies</li>
+        <li>Personal / Individual, Public Sector, Non-profit, Private Sector, and Local authority applicants</li>
+        <li>Must own or manage residential property with off-street parking</li>
+        <li>Eligible regions: National, England, Wales, Scotland, Northern Ireland, North East England, North West England, South East England, South West England, Midlands</li>
+      </ul>
+
+      <!-- How to apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">How to apply</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Applications must be submitted through an OZEV-authorised installer or via the online portal before the closing date. You will need to register as a landlord with OZEV and provide proof of property ownership or management authority.
+      </p>
+
+      <!-- Start Application Call to Action -->
+      {{ govukButton({
+        text: "Start application",
+        href: "#",
+        isStartButton: true,
+        classes: "govuk-!-margin-top-2"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

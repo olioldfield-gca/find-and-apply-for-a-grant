@@ -1,0 +1,117 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Community and Environment Fund (CEF) and Business and Local Economy Fund (BLEF) - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/index", text: "Home" },
+      { href: "/search", text: "Browse grants", active: true },
+      { href: "/about-us", text: "About us" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "/search"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <!-- Page Heading & Department Caption -->
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+        Community and Environment Fund (CEF) and Business and Local Economy Fund (BLEF)
+        <span class="govuk-caption-l govuk-!-margin-top-1">HS2 Ltd</span>
+      </h1>
+
+      <!-- Key Dates & Details Summary List -->
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-top-6 govuk-!-margin-bottom-8",
+        rows: [
+          {
+            key: { text: "Grant opens" },
+            value: { text: "08 Mar 2017" }
+          },
+          {
+            key: { text: "Grant closes" },
+            value: { text: "31 Mar 2035" }
+          },
+          {
+            key: { text: "Minimum grant" },
+            value: { text: "£1" }
+          },
+          {
+            key: { text: "Maximum grant" },
+            value: { text: "£250,000" }
+          },
+          {
+            key: { text: "Total scheme funding" },
+            value: { text: "£45 million" }
+          },
+          {
+            key: { text: "Funding body" },
+            value: { text: "HS2 Ltd" }
+          }
+        ]
+      }) }}
+
+      <!-- About this grant section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">About this grant</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-8">
+        This funding programme provides grants to local communities and economies that are disrupted by the construction of Phase One and Phase 2a of HS2 between London and Crewe.
+      </p>
+
+      <!-- Who can apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">Who can apply</h2>
+
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-8">
+        <li>Public Sector and Non-profit organisations</li>
+        <li>Eligible regions: England</li>
+      </ul>
+
+      <!-- How to apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">How to apply</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Applications must be submitted through this service before the closing date. You will need to provide evidence of eligibility and a project plan as part of your submission.
+      </p>
+
+      <!-- Start Application Call to Action -->
+      {{ govukButton({
+        text: "Start application",
+        href: "#",
+        isStartButton: true,
+        classes: "govuk-!-margin-top-2"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

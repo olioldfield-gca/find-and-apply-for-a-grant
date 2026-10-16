@@ -1,0 +1,122 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Trees, woodlands and forestry - Woodland Creation Planning Grant - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/index", text: "Home" },
+      { href: "/search", text: "Browse grants", active: true },
+      { href: "/about-us", text: "About us" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "/search"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <!-- Page Heading & Department Caption -->
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+        Trees, woodlands and forestry - Woodland Creation Planning Grant
+        <span class="govuk-caption-l govuk-!-margin-top-1">Department for Environment Food and Rural Affairs / Forestry Commission – Defra Trees Programme</span>
+      </h1>
+
+      <!-- Key Dates & Details Summary List -->
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-top-6 govuk-!-margin-bottom-8",
+        rows: [
+          {
+            key: { text: "Grant opens" },
+            value: { text: "01 Dec 2015" }
+          },
+          {
+            key: { text: "Grant closes" },
+            value: { text: "31 Mar 2030" }
+          },
+          {
+            key: { text: "Minimum grant" },
+            value: { text: "£1,500" }
+          },
+          {
+            key: { text: "Maximum grant" },
+            value: { text: "£30,500" }
+          },
+          {
+            key: { text: "Total scheme funding" },
+            value: { text: "£708,607" }
+          },
+          {
+            key: { text: "Funding body" },
+            value: { text: "Department for Environment Food and Rural Affairs / Forestry Commission – Defra Trees Programme" }
+          }
+        ]
+      }) }}
+
+      <!-- About this grant section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">About this grant</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-4">
+        The Woodland Creation Planning Grant (WCPG) offers funding of up to £30,500 for the production of a UKFS-compliant woodland creation design plan. Landowners, land managers and public bodies can apply. WCPG is open for applications year-round.
+      </p>
+
+      <p class="govuk-body govuk-!-margin-bottom-8">
+        The ‘Find a grant’ tool requires a ‘closing date’ to be specified, however 31 March 2030 reflects the period WCPG funding is currently confirmed until, rather than a known closure date. The scheme was re-launched in autumn 2020 to enable more people to apply and help proposals move more quickly through the Environmental Impact Assessment process and future planting and establishment grant funding.
+      </p>
+
+      <!-- Who can apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">Who can apply</h2>
+
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-8">
+        <li>Landowners, land managers, and public bodies</li>
+        <li>Personal / Individual, Public Sector, Non-profit, and Private Sector applicants</li>
+        <li>Eligible regions: England, North East England, North West England, South East England, South West England, Midlands</li>
+      </ul>
+
+      <!-- How to apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">How to apply</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Applications must be submitted through this service before the closing date. You will need to provide evidence of eligibility and a project plan as part of your submission.
+      </p>
+
+      <!-- Start Application Call to Action -->
+      {{ govukButton({
+        text: "Start application",
+        href: "#",
+        isStartButton: true,
+        classes: "govuk-!-margin-top-2"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

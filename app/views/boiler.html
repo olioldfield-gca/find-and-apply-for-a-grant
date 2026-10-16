@@ -1,0 +1,112 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Boiler Upgrade Scheme - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/index", text: "Home" },
+      { href: "/search", text: "Browse grants", active: true },
+      { href: "/about-us", text: "About us" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "/search"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <!-- Page Heading & Department Caption -->
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+        Boiler Upgrade Scheme
+        <span class="govuk-caption-l govuk-!-margin-top-1">Department for Energy Security and Net Zero</span>
+      </h1>
+
+      <!-- Key Dates & Details Summary List -->
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-top-6 govuk-!-margin-bottom-8",
+        rows: [
+          {
+            key: { text: "Grant opens" },
+            value: { text: "23 May 2027" }
+          },
+          {
+            key: { text: "Grant closes" },
+            value: { text: "31 Dec 2027" }
+          },
+          {
+            key: { text: "Minimum grant" },
+            value: { text: "£5,000" }
+          },
+          {
+            key: { text: "Maximum grant" },
+            value: { text: "£7,500" }
+          },
+          {
+            key: { text: "Total scheme funding" },
+            value: { text: "£775 million" }
+          },
+          {
+            key: { text: "Funding body" },
+            value: { text: "Department for Energy Security and Net Zero" }
+          }
+        ]
+      }) }}
+
+      <!-- About this grant section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">About this grant</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-8">
+        The Boiler Upgrade Scheme (BUS) supports the decarbonisation of homes and small and medium non-domestic buildings in England and Wales. The scheme provides upfront capital grants of up to £7,500 to encourage property owners to replace existing fossil fuel heating with more efficient, low carbon heating systems including heat pumps and biomass boilers.
+      </p>
+
+      <!-- Who can apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">Who can apply</h2>
+
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-8">
+        <li>Property owners of domestic and small non-domestic properties</li>
+        <li>Personal / Individual, Public Sector, and Private Sector applicants</li>
+        <li>Eligible regions: England, Wales</li>
+      </ul>
+
+      <!-- How to apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">How to apply</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Applications can be submitted once this grant opens.
+      </p>
+
+     
+
+    </div>
+  </div>
+{% endblock %}
