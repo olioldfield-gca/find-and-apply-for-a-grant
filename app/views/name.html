@@ -1,0 +1,103 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Enter your name - Apply for a grant" %}
+
+{% block header %}
+  {{ super() }}
+
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications-full",
+        html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>'
+      },
+      {
+        href: "/favourites",
+        text: "Favourites"
+      },
+      {
+        href: "/signed-manage-applications-full",
+        text: "Manage Applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details",
+        active: true
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+  
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/input/macro.njk" import govukInput %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  {% set headingText = "Enter your organisation's name (Optional)" %}
+  {% set hintText = "Enter the official name of your organisation." %}
+
+  {% if data['organisationType'] == 'individual' %}
+    {% set headingText = "Enter your full name (Optional)" %}
+    {% set hintText = "Your name will appear on your application." %}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      <form action="/save-name" method="post" novalidate>
+        
+        {{ govukInput({
+          label: {
+            text: headingText,
+            isPageHeading: true,
+            classes: "govuk-label--l"
+          },
+          hint: {
+            text: hintText
+          },
+          id: "name",
+          name: "name",
+          value: data['name']
+        }) }}
+
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Save"
+          }) }}
+          
+          <a class="govuk-link" href="/your-saved-information">Cancel</a>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+{% endblock %}

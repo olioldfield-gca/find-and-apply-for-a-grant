@@ -1,0 +1,66 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = scheme['Scheme Name'] + " - Grant scheme details" %}
+
+{% block header %}
+  {{ super() }}
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/", text: "Home" },
+      { href: "/search", text: "Browse grants" },
+      { href: "/search", text: "Browse grants", active: true }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back to search results", href: searchPath + "?" + searchQuery }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+  {% from "govuk/components/tag/macro.njk" import govukTag %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Planned grant details</span>
+      <h1 class="govuk-heading-xl">{{ scheme['Scheme Name'] }}</h1>
+      <p class="govuk-body">{{ govukTag({ text: "Planned grant", classes: "govuk-tag--blue" }) }}</p>
+
+      {{ govukInsetText({
+        text: "This grant is not currently open for applications. The information may change, and the scheme may be delayed, withdrawn or never open for applications. Scheme start and end dates are financial-year dates, not application opening or closing dates."
+      }) }}
+
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Scheme name</dt>
+          <dd class="govuk-summary-list__value">{{ scheme['Scheme Name'] }}</dd>
+        </div>
+        {% if scheme["Your Organisation's Scheme Reference Number"] %}
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Organisation's scheme reference</dt>
+            <dd class="govuk-summary-list__value">{{ scheme["Your Organisation's Scheme Reference Number"] }}</dd>
+          </div>
+        {% endif %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Funder</dt>
+          <dd class="govuk-summary-list__value">{{ scheme.Funder }}</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Managed by</dt>
+          <dd class="govuk-summary-list__value">{{ scheme['Managed By'] }}</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Scheme start date</dt>
+          <dd class="govuk-summary-list__value"><time datetime="{{ scheme['Scheme Start Date'] }}">{{ formatSchemeDate(scheme['Scheme Start Date']) }}</time></dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Scheme end date</dt>
+          <dd class="govuk-summary-list__value"><time datetime="{{ scheme['Scheme End Date'] }}">{{ formatSchemeDate(scheme['Scheme End Date']) }}</time></dd>
+        </div>
+      </dl>
+
+      <p class="govuk-body-s">Test data: this fictional scheme record is for demonstration only.</p>
+    </div>
+  </div>
+{% endblock %}

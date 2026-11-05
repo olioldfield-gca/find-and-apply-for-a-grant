@@ -5,8 +5,14 @@
     "start": "govuk-prototype-kit start"
   },
   "dependencies": {
-    "@govuk-prototype-kit/common-templates": "3.0.1",
-    "govuk-frontend": "6.6.0",
-    "govuk-prototype-kit": "14.0.2"
+    "@govuk-prototype-kit/common-templates": "3.0.0",
+    "@govuk-prototype-kit/step-by-step": "3.0.0",
+    "@govuk-prototype-kit/task-list": "2.0.0",
+    "@ministryofjustice/frontend": "^10.0.1",
+    "govuk-frontend": "6.4.0",
+    "govuk-prototype-kit": "13.20.3",
+    "hmrc-frontend": "7.28.0",
+    "jquery": "4.0.0",
+    "notifications-node-client": "8.4.0"
   }
 }

@@ -1,0 +1,69 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Search results - Grant schemes" %}
+
+{% block header %}
+  {{ super() }}
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/", text: "Home" },
+      { href: "/search", text: "Browse grants" },
+      { href: "/future-grants", text: "Search grant schemes", active: true }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/future-grants" }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/input/macro.njk" import govukInput %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Grant schemes</span>
+      <h1 class="govuk-heading-xl">Search results</h1>
+      <p class="govuk-body">We found <strong>{{ schemes.length }}</strong> schemes.</p>
+
+      <form action="/future-grants/results" method="get" class="govuk-!-margin-bottom-6">
+        {{ govukInput({
+          label: { text: "Search by scheme name or funder" },
+          id: "q",
+          name: "q",
+          value: searchTerm
+        }) }}
+
+        {{ govukButton({ text: "Search schemes" }) }}
+        <a class="govuk-link govuk-!-margin-left-3" href="/future-grants/results">Clear search</a>
+      </form>
+
+      {% if schemes.length %}
+        <ol class="govuk-list">
+          {% for scheme in schemes %}
+            <li class="future-grant-result govuk-!-padding-top-4 govuk-!-padding-bottom-4">
+              <h2 class="govuk-heading-m govuk-!-margin-bottom-3">
+                <a class="govuk-link" href="/future-grants/scheme/{{ scheme.recordIndex }}?{{ searchQuery }}">{{ scheme.scheme['Scheme Name'] }}</a>
+              </h2>
+              <dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-margin-bottom-0">
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">Funder</dt>
+                  <dd class="govuk-summary-list__value">{{ scheme.scheme.Funder }}</dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">Managed by</dt>
+                  <dd class="govuk-summary-list__value">{{ scheme.scheme['Managed By'] }}</dd>
+                </div>
+              </dl>
+            </li>
+          {% endfor %}
+        </ol>
+      {% else %}
+        <p class="govuk-body">No schemes match your search. Try a different scheme name or funder.</p>
+      {% endif %}
+
+      <p class="govuk-body-s">Test data: all scheme records on these pages are fictional.</p>
+    </div>
+  </div>
+{% endblock %}

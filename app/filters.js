@@ -1,6 +1,6 @@
 //
 // For guidance on how to create filters see:
-// https://prototype-kit.service.gov.uk/filters/
+// https://prototype-kit.service.gov.uk/docs/filters
 //
 
 const govukPrototypeKit = require('govuk-prototype-kit')

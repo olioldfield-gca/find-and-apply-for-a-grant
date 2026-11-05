@@ -1,0 +1,113 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Electric Vehicle Chargepoint Grant for Renters and Flat Owners - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/index", text: "Home" },
+      { href: "/search", text: "Browse grants", active: true },
+      { href: "/about-us", text: "About us" }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "/search"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <!-- Page Heading & Department Caption -->
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
+        Electric Vehicle Chargepoint Grant for Renters and Flat Owners
+        <span class="govuk-caption-l govuk-!-margin-top-1">Office for Zero Emission Vehicles</span>
+      </h1>
+
+      <!-- Key Dates & Details Summary List -->
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-top-6 govuk-!-margin-bottom-8",
+        rows: [
+          {
+            key: { text: "Grant opens" },
+            value: { text: "01 Apr 2027" }
+          },
+          {
+            key: { text: "Grant closes" },
+            value: { text: "31 Mar 2028" }
+          },
+          {
+            key: { text: "Minimum grant" },
+            value: { text: "£1" }
+          },
+          {
+            key: { text: "Maximum grant" },
+            value: { text: "£500" }
+          },
+          {
+            key: { text: "Total scheme funding" },
+            value: { text: "£500" }
+          },
+          {
+            key: { text: "Funding body" },
+            value: { text: "Office for Zero Emission Vehicles" }
+          }
+        ]
+      }) }}
+
+      <!-- About this grant section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">About this grant</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-8">
+        The grant provides electric vehicle (EV) drivers who are renters or own a flat with support towards the costs of the purchase and installation of EV charge points. It provides 75% off the cost to buy and install a socket, up to a maximum of £500.
+      </p>
+
+      <!-- Who can apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">Who can apply</h2>
+
+      <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-8">
+        <li>Personal / Individual applicants who rent a property or own and live in a flat</li>
+        <li>Must own or lease an eligible electric vehicle or plug-in hybrid</li>
+        <li>Property must have dedicated off-street parking</li>
+        <li>Eligible regions: National, England, Wales, Scotland, Northern Ireland, North East England, North West England, South East England, South West England, Midlands</li>
+      </ul>
+
+      <!-- How to apply section -->
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-3">How to apply</h2>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Applications can be submitted once this grant opens.
+      </p>
+
+  
+
+    </div>
+  </div>
+{% endblock %}

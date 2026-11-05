@@ -1,0 +1,40 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Search grant schemes" %}
+
+{% block header %}
+  {{ super() }}
+  {{ govukServiceNavigation({
+    navigation: [
+      { href: "/", text: "Home" },
+      { href: "/search", text: "Browse grants" },
+      { href: "/future-grants", text: "Search grant schemes", active: true }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/input/macro.njk" import govukInput %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Find a grant</span>
+      <h1 class="govuk-heading-xl">Search grant schemes</h1>
+      <p class="govuk-body">Search the grant scheme information available in this demonstration.</p>
+
+      <form action="/future-grants/results" method="get">
+        {{ govukInput({
+          label: { text: "Search by scheme name or funder" },
+          hint: { text: "Enter a word or phrase" },
+          id: "q",
+          name: "q"
+        }) }}
+
+        {{ govukButton({ text: "Search schemes" }) }}
+      </form>
+
+      <p class="govuk-body-s">Test data: all scheme records on these pages are fictional.</p>
+    </div>
+  </div>
+{% endblock %}

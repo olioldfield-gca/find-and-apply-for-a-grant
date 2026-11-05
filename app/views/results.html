@@ -1,0 +1,107 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Search results – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {{ govukBackLink({
+        text: "Back",
+        href: "/search"
+      }) }}
+
+      <div class="search-summary">
+        <h1 class="govuk-heading-xl">Search results</h1>
+        <p class="govuk-body">
+          Showing results for <strong>rural energy</strong> in <strong>England</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="grant-card">
+        <div class="grant-card__meta">
+          {{ govukTag({ text: "Open", classes: "govuk-tag--green" }) }}
+          {{ govukTag({ text: "Capital" }) }}
+        </div>
+        <h2 class="govuk-heading-m grant-card__title">
+          <a href="/grant" class="govuk-link">Rural England Prosperity Fund</a>
+        </h2>
+        <p class="govuk-body">
+          Funding for rural businesses to invest in equipment, new technology and local infrastructure.
+        </p>
+        <dl class="govuk-summary-list govuk-summary-list--no-border">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Value</dt>
+            <dd class="govuk-summary-list__value">Up to £500,000</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Deadline</dt>
+            <dd class="govuk-summary-list__value">30 September 2026</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="grant-card">
+        <div class="grant-card__meta">
+          {{ govukTag({ text: "Open", classes: "govuk-tag--green" }) }}
+          {{ govukTag({ text: "Innovation" }) }}
+        </div>
+        <h2 class="govuk-heading-m grant-card__title">
+          <a href="/grant" class="govuk-link">Net Zero Innovation Grants</a>
+        </h2>
+        <p class="govuk-body">
+          Support for businesses developing low-carbon technologies, energy efficiency and sustainable processes.
+        </p>
+        <dl class="govuk-summary-list govuk-summary-list--no-border">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Value</dt>
+            <dd class="govuk-summary-list__value">£25,000 to £250,000</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Deadline</dt>
+            <dd class="govuk-summary-list__value">12 October 2026</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="grant-card">
+        <div class="grant-card__meta">
+          {{ govukTag({ text: "Closing soon" }) }}
+          {{ govukTag({ text: "Revenue" }) }}
+        </div>
+        <h2 class="govuk-heading-m grant-card__title">
+          <a href="/grant" class="govuk-link">Sustainable Agriculture Grant</a>
+        </h2>
+        <p class="govuk-body">
+          Revenue funding for farms and rural organisations to reduce emissions and improve resource efficiency.
+        </p>
+        <dl class="govuk-summary-list govuk-summary-list--no-border">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Value</dt>
+            <dd class="govuk-summary-list__value">£10,000 to £150,000</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Deadline</dt>
+            <dd class="govuk-summary-list__value">5 August 2026</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+      <aside class="govuk-related-items govuk-!-margin-top-6">
+        <h2 class="govuk-heading-m">Filter results</h2>
+        <ul class="govuk-list govuk-list--bullet">
+          <li><a href="/results" class="govuk-link">England</a></li>
+          <li><a href="/results" class="govuk-link">Up to £100,000</a></li>
+          <li><a href="/results" class="govuk-link">Business grants</a></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+{% endblock %}

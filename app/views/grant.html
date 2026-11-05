@@ -1,0 +1,57 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Rural England Prosperity Fund – {{ serviceName }} – GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukBreadcrumbs({
+        items: [
+          { text: "Home", href: "/" },
+          { text: "Search results", href: "/results" },
+          { text: "Rural England Prosperity Fund" }
+        ]
+      }) }}
+
+      <span class="govuk-caption-l">Grant details</span>
+      <h1 class="govuk-heading-xl">Rural England Prosperity Fund</h1>
+
+      {{ govukSummaryList({
+        rows: [
+          { key: { text: "Value" }, value: { text: "Up to £500,000" } },
+          { key: { text: "Location" }, value: { text: "England" } },
+          { key: { text: "Who can apply" }, value: { text: "Rural businesses and community organisations" } },
+          { key: { text: "Deadline" }, value: { text: "30 September 2026" } }
+        ]
+      }) }}
+
+      {{ govukInsetText({
+        text: "This grant is for projects that improve local infrastructure, support innovation and increase productivity in rural areas."
+      }) }}
+
+      <h2 class="govuk-heading-m">What this grant is for</h2>
+      <p class="govuk-body">
+        You can apply for funding to invest in equipment, digital improvements, new premises and innovative local projects.
+      </p>
+
+      <h2 class="govuk-heading-m">Who can apply</h2>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Businesses based in eligible rural areas</li>
+        <li>Organisations with a clear project plan and evidence of local benefit</li>
+        <li>Applicants able to provide match funding where required</li>
+      </ul>
+
+      <h2 class="govuk-heading-m">How to apply</h2>
+      <p class="govuk-body">
+        Read the full guidance and complete the online application form before the closing date.
+      </p>
+
+      {{ govukButton({
+        text: "Check eligibility",
+        href: "/search"
+      }) }}
+    </div>
+  </div>
+{% endblock %}

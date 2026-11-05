@@ -1,0 +1,201 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Your saved information - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications-full",
+        html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>'
+      },
+      {
+        href: "/favourites",
+        text: "Favourites"
+      },
+      {
+        href: "/signed-manage-applications-full",
+        text: "Manage applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details",
+        active: true
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+
+    /* Details Card Pattern */
+    .app-card {
+      background-color: #f3f2f1;
+      border: 1px solid #b1b4b6;
+      padding: 20px;
+      height: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+
+  {% set orgTypeDisplay = "-" %}
+  {% set actionText = "Add" %}
+  {% set typeKeyText = "Type of organisation" %}
+  {% set detailsHeading = "Your organisation details" %}
+  {% set isIndividual = false %}
+
+  {% if data['organisationType'] %}
+    {% set actionText = "Change" %}
+    
+    {% if data['organisationType'] == "limited-company" %}
+      {% set orgTypeDisplay = "Limited company" %}
+    {% elif data['organisationType'] == "non-limited-company" %}
+      {% set orgTypeDisplay = "Non-limited company" %}
+    {% elif data['organisationType'] == "charity" %}
+      {% set orgTypeDisplay = "Charity" %}
+    {% elif data['organisationType'] == "individual" %}
+      {% set orgTypeDisplay = "I am applying as an individual" %}
+      {% set typeKeyText = "Type of application" %}
+      {% set detailsHeading = "Your details" %}
+      {% set isIndividual = true %}
+    {% elif data['organisationType'] == "local-authority" %}
+      {% set orgTypeDisplay = "Local authority" %}
+    {% elif data['organisationType'] == "other" %}
+      {% set orgTypeDisplay = "Other" %}
+    {% endif %}
+  {% endif %}
+
+  {% set nameDisplay = "-" %}
+  {% set nameActionText = "Add" %}
+  {% if data['name'] %}
+    {% set nameDisplay = data['name'] %}
+    {% set nameActionText = "Change" %}
+  {% endif %}
+
+  {% set addressActionText = "Add" %}
+  {% set addressValue = { text: "-" } %}
+
+  {% set addressParts = [] %}
+  {% if data['addressLine1'] %}{% set addressParts = (addressParts.push(data['addressLine1']), addressParts) %}{% endif %}
+  {% if data['addressLine2'] %}{% set addressParts = (addressParts.push(data['addressLine2']), addressParts) %}{% endif %}
+  {% if data['addressTown'] %}{% set addressParts = (addressParts.push(data['addressTown']), addressParts) %}{% endif %}
+  {% if data['addressCounty'] %}{% set addressParts = (addressParts.push(data['addressCounty']), addressParts) %}{% endif %}
+  {% if data['addressPostcode'] %}{% set addressParts = (addressParts.push(data['addressPostcode']), addressParts) %}{% endif %}
+
+  {% if addressParts.length > 0 %}
+    {% set addressValue = { html: addressParts | join("<br>") } %}
+    {% set addressActionText = "Change" %}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      <h1 class="govuk-heading-l">Your saved information</h1>
+      
+      <p class="govuk-body">
+        Funding organisations run checks to prevent fraud. The information below will be used as part of these checks.
+      </p>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              text: typeKeyText
+            },
+            value: {
+              text: orgTypeDisplay
+            },
+            actions: {
+              items: [
+                {
+                  href: "/organisation-type",
+                  text: actionText,
+                  visuallyHiddenText: "organisation type"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">{{ detailsHeading }}</h2>
+
+      {% set detailsRows = [
+        {
+          key: { text: "Name" },
+          value: { text: nameDisplay },
+          actions: {
+            items: [
+              { href: "/name", text: nameActionText, visuallyHiddenText: "name" }
+            ]
+          }
+        },
+        {
+          key: { text: "Address" },
+          value: addressValue,
+          actions: {
+            items: [
+              { href: "/personal-address", text: addressActionText, visuallyHiddenText: "address" }
+            ]
+          }
+        }
+      ] %}
+
+      {% if not isIndividual %}
+        {% set detailsRows = (detailsRows.push({
+          key: { text: "Companies House number" },
+          value: { text: "-" },
+          actions: {
+            items: [
+              { href: "#", text: "Add", visuallyHiddenText: "Companies House number" }
+            ]
+          }
+        }), detailsRows) %}
+
+        {% set detailsRows = (detailsRows.push({
+          key: { text: "Charity Commission number" },
+          value: { text: "-" },
+          actions: {
+            items: [
+              { href: "#", text: "Add", visuallyHiddenText: "Charity Commission number" }
+            ]
+          }
+        }), detailsRows) %}
+      {% endif %}
+
+      {{ govukSummaryList({
+        rows: detailsRows
+      }) }}
+
+      {{ govukButton({
+        text: "Back to my account",
+        classes: "govuk-button--secondary",
+        href: "/signed-account-details"
+      }) }}
+
+    </div>
+  </div>
+{% endblock %}

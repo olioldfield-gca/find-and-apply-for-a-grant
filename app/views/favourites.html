@@ -1,0 +1,333 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName = "Favourites - Find a grant" %}
+
+{% block header %}
+  {{ super() }}
+  {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+  {{ govukServiceNavigation({
+    navigation: [
+      {
+        href: "/signed-search",
+        text: "Search grants"
+      },
+      {
+        href: "/signed-notifications-full",
+        html: 'Notifications <span id="nav-notification-badge" class="moj-badge moj-badge--red govuk-!-margin-left-1">3</span>'
+      },
+      {
+        href: "/favourites",
+        text: "Favourites",
+        active: true
+      },
+      {
+        href: "/signed-manage-applications-full",
+        text: "Manage applications"
+      },
+      {
+        href: "/signed-account-details",
+        text: "Account details"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {% from "govuk/components/tag/macro.njk" import govukTag %}
+  {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <style>
+    /* Inline notification panel container */
+    .app-settings-panel {
+      background-color: #f3f2f1;
+      padding: 20px;
+      border: 1px solid #b1b4b6;
+      margin: 10px 0;
+    }
+  
+    /* MOJ Badge */
+    .moj-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 10px;
+      color: #ffffff;
+      background-color: #d4351c;
+      vertical-align: middle;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Favourite grant schemes</h1>
+
+      <p class="govuk-body govuk-!-margin-bottom-6">
+        Grant schemes you have saved. Select the scheme name to view the full advert. Use the Actions column to manage your notification preferences or remove a scheme.
+      </p>
+
+      <table class="govuk-table" id="favourites-table" data-module="moj-sortable-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header" aria-sort="none">Scheme name</th>
+            <th scope="col" class="govuk-table__header" aria-sort="none">Opens</th>
+            <th scope="col" class="govuk-table__header" aria-sort="none">Closes</th>
+            <th scope="col" class="govuk-table__header">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+
+          <!-- Row 1: Rural Development Fund 2026 -->
+          <tr class="govuk-table__row" id="row-1">
+            <td class="govuk-table__cell">
+              <a href="/rural" class="govuk-link govuk-!-font-weight-bold">Rural Development Fund 2026</a>
+            </td>
+            <td class="govuk-table__cell">01 Apr 2026</td>
+            <td class="govuk-table__cell">30 Sep 2026</td>
+            <td class="govuk-table__cell">
+              <a href="#" class="govuk-link govuk-!-margin-right-3 js-toggle-settings" data-target="settings-row-1">Notification settings</a>
+              <a href="#" class="govuk-link govuk-link--destructive js-remove-grant" data-target="row-1" data-settings="settings-row-1">Remove</a>
+            </td>
+          </tr>
+          <tr class="govuk-table__row govuk-!-display-none" id="settings-row-1">
+            <td colspan="4" class="govuk-table__cell" style="padding: 0; border: none;">
+              <div class="app-settings-panel">
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-4">Notification settings — Rural Development Fund 2026</h3>
+                {{ govukCheckboxes({
+                  name: "notifications-1",
+                  items: [{
+                    value: "email",
+                    text: "Receive email notifications for this scheme",
+                    hint: { text: "We will email you when the scheme opens, when it is closing soon, and if there are any important updates." },
+                    checked: true
+                  }]
+                }) }}
+                <div class="govuk-button-group govuk-!-margin-bottom-0">
+                  {{ govukButton({ text: "Save settings", classes: "js-close-settings", attributes: { "data-target": "settings-row-1" } }) }}
+                  {{ govukButton({ text: "Cancel", classes: "govuk-button--secondary js-close-settings", attributes: { "data-target": "settings-row-1" } }) }}
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 2: Farming Innovation Programme -->
+          <tr class="govuk-table__row" id="row-2">
+            <td class="govuk-table__cell">
+              <a href="/farming" class="govuk-link govuk-!-font-weight-bold">Farming Innovation Programme</a>
+            </td>
+            <td class="govuk-table__cell">01 Jun 2026</td>
+            <td class="govuk-table__cell">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span>15 Aug 2026</span>
+                {{ govukTag({ text: "CLOSING SOON", classes: "govuk-tag--red" }) }}
+              </div>
+            </td>
+            <td class="govuk-table__cell">
+              <a href="#" class="govuk-link govuk-!-margin-right-3 js-toggle-settings" data-target="settings-row-2">Notification settings</a>
+              <a href="#" class="govuk-link govuk-link--destructive js-remove-grant" data-target="row-2" data-settings="settings-row-2">Remove</a>
+            </td>
+          </tr>
+          <tr class="govuk-table__row govuk-!-display-none" id="settings-row-2">
+            <td colspan="4" class="govuk-table__cell" style="padding: 0; border: none;">
+              <div class="app-settings-panel">
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-4">Notification settings — Farming Innovation Programme</h3>
+                {{ govukCheckboxes({
+                  name: "notifications-2",
+                  items: [{
+                    value: "email",
+                    text: "Receive email notifications for this scheme",
+                    hint: { text: "We will email you when the scheme opens, when it is closing soon, and if there are any important updates." },
+                    checked: true
+                  }]
+                }) }}
+                <div class="govuk-button-group govuk-!-margin-bottom-0">
+                  {{ govukButton({ text: "Save settings", classes: "js-close-settings", attributes: { "data-target": "settings-row-2" } }) }}
+                  {{ govukButton({ text: "Cancel", classes: "govuk-button--secondary js-close-settings", attributes: { "data-target": "settings-row-2" } }) }}
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 3: Net Zero Communities Grant -->
+          <tr class="govuk-table__row" id="row-3">
+            <td class="govuk-table__cell">
+              <a href="/net-zero" class="govuk-link govuk-!-font-weight-bold">Net Zero Communities Grant</a>
+            </td>
+            <td class="govuk-table__cell">15 Mar 2026</td>
+            <td class="govuk-table__cell">31 Oct 2026</td>
+            <td class="govuk-table__cell">
+              <a href="#" class="govuk-link govuk-!-margin-right-3 js-toggle-settings" data-target="settings-row-3">Notification settings</a>
+              <a href="#" class="govuk-link govuk-link--destructive js-remove-grant" data-target="row-3" data-settings="settings-row-3">Remove</a>
+            </td>
+          </tr>
+          <tr class="govuk-table__row govuk-!-display-none" id="settings-row-3">
+            <td colspan="4" class="govuk-table__cell" style="padding: 0; border: none;">
+              <div class="app-settings-panel">
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-4">Notification settings — Net Zero Communities Grant</h3>
+                {{ govukCheckboxes({
+                  name: "notifications-3",
+                  items: [{
+                    value: "email",
+                    text: "Receive email notifications for this scheme",
+                    hint: { text: "We will email you when the scheme opens, when it is closing soon, and if there are any important updates." },
+                    checked: true
+                  }]
+                }) }}
+                <div class="govuk-button-group govuk-!-margin-bottom-0">
+                  {{ govukButton({ text: "Save settings", classes: "js-close-settings", attributes: { "data-target": "settings-row-3" } }) }}
+                  {{ govukButton({ text: "Cancel", classes: "govuk-button--secondary js-close-settings", attributes: { "data-target": "settings-row-3" } }) }}
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 4: Cultural Recovery and Resilience Fund -->
+          <tr class="govuk-table__row" id="row-4">
+            <td class="govuk-table__cell">
+              <a href="/cultural-recovery" class="govuk-link govuk-!-font-weight-bold">Cultural Recovery and Resilience Fund</a>
+            </td>
+            <td class="govuk-table__cell">01 May 2026</td>
+            <td class="govuk-table__cell">31 Jul 2026</td>
+            <td class="govuk-table__cell">
+              <a href="#" class="govuk-link govuk-!-margin-right-3 js-toggle-settings" data-target="settings-row-4">Notification settings</a>
+              <a href="#" class="govuk-link govuk-link--destructive js-remove-grant" data-target="row-4" data-settings="settings-row-4">Remove</a>
+            </td>
+          </tr>
+          <tr class="govuk-table__row govuk-!-display-none" id="settings-row-4">
+            <td colspan="4" class="govuk-table__cell" style="padding: 0; border: none;">
+              <div class="app-settings-panel">
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-4">Notification settings — Cultural Recovery and Resilience Fund</h3>
+                {{ govukCheckboxes({
+                  name: "notifications-4",
+                  items: [{
+                    value: "email",
+                    text: "Receive email notifications for this scheme",
+                    hint: { text: "We will email you when the scheme opens, when it is closing soon, and if there are any important updates." },
+                    checked: true
+                  }]
+                }) }}
+                <div class="govuk-button-group govuk-!-margin-bottom-0">
+                  {{ govukButton({ text: "Save settings", classes: "js-close-settings", attributes: { "data-target": "settings-row-4" } }) }}
+                  {{ govukButton({ text: "Cancel", classes: "govuk-button--secondary js-close-settings", attributes: { "data-target": "settings-row-4" } }) }}
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 5: Small Business Digital Adoption Scheme -->
+          <tr class="govuk-table__row" id="row-5">
+            <td class="govuk-table__cell">
+              <a href="/small-business" class="govuk-link govuk-!-font-weight-bold">Small Business Digital Adoption Scheme</a>
+            </td>
+            <td class="govuk-table__cell">01 Feb 2026</td>
+            <td class="govuk-table__cell">28 Feb 2027</td>
+            <td class="govuk-table__cell">
+              <a href="#" class="govuk-link govuk-!-margin-right-3 js-toggle-settings" data-target="settings-row-5">Notification settings</a>
+              <a href="#" class="govuk-link govuk-link--destructive js-remove-grant" data-target="row-5" data-settings="settings-row-5">Remove</a>
+            </td>
+          </tr>
+          <tr class="govuk-table__row govuk-!-display-none" id="settings-row-5">
+            <td colspan="4" class="govuk-table__cell" style="padding: 0; border: none;">
+              <div class="app-settings-panel">
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-4">Notification settings — Small Business Digital Adoption Scheme</h3>
+                {{ govukCheckboxes({
+                  name: "notifications-5",
+                  items: [{
+                    value: "email",
+                    text: "Receive email notifications for this scheme",
+                    hint: { text: "We will email you when the scheme opens, when it is closing soon, and if there are any important updates." },
+                    checked: true
+                  }]
+                }) }}
+                <div class="govuk-button-group govuk-!-margin-bottom-0">
+                  {{ govukButton({ text: "Save settings", classes: "js-close-settings", attributes: { "data-target": "settings-row-5" } }) }}
+                  {{ govukButton({ text: "Cancel", classes: "govuk-button--secondary js-close-settings", attributes: { "data-target": "settings-row-5" } }) }}
+                </div>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <!-- Empty state container -->
+      <p id="no-favourites-message" class="govuk-body govuk-!-display-none">
+        You have no saved grant schemes.
+      </p>
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block pageScripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      
+      // 1. Toggle Notification Settings panel
+      const toggleButtons = document.querySelectorAll('.js-toggle-settings');
+      toggleButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+          const targetId = this.getAttribute('data-target');
+          const settingsRow = document.getElementById(targetId);
+          if (settingsRow) {
+            settingsRow.classList.toggle('govuk-!-display-none');
+          }
+        });
+      });
+
+      // 2. Save / Cancel buttons close panel
+      const closeButtons = document.querySelectorAll('.js-close-settings');
+      closeButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+          const targetId = this.getAttribute('data-target');
+          const settingsRow = document.getElementById(targetId);
+          if (settingsRow) {
+            settingsRow.classList.add('govuk-!-display-none');
+          }
+        });
+      });
+
+      // 3. Remove Grant row and corresponding settings panel
+      const removeButtons = document.querySelectorAll('.js-remove-grant');
+      const table = document.getElementById('favourites-table');
+      const emptyMessage = document.getElementById('no-favourites-message');
+
+      removeButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+
+          const rowId = this.getAttribute('data-target');
+          const settingsId = this.getAttribute('data-settings');
+
+          const mainRow = document.getElementById(rowId);
+          const settingsRow = document.getElementById(settingsId);
+
+          if (mainRow) mainRow.remove();
+          if (settingsRow) settingsRow.remove();
+
+          // Check if table has any remaining main rows
+          const remainingRows = table.querySelectorAll('tbody tr:not(.govuk-!-display-none)');
+          if (remainingRows.length === 0) {
+            table.classList.add('govuk-!-display-none');
+            emptyMessage.classList.remove('govuk-!-display-none');
+          }
+        });
+      });
+
+    });
+  </script>
+{% endblock %}
